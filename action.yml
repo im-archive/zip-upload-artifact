@@ -69,7 +69,6 @@ runs:
         PATH: ${{ inputs.path }}
 
     - name: Zip Artifact
-      if: steps.validate_inputs.outputs.PATH_TYPE == 'file'
       shell: pwsh
       run: |
         echo "Zipping Artifact File..."
@@ -77,7 +76,6 @@ runs:
         echo "DONE!"
 
     - name: Upload Artifact
-      if: steps.validate_inputs.outputs.PATH_TYPE == 'file'
       uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.validate_inputs.outputs.INPUT_PATH }}
