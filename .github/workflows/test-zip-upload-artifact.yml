@@ -1,4 +1,4 @@
-name: Zip Upload Artifact Test
+name: Test Zip Upload Artifact
 
 on:
   workflow_dispatch:
@@ -11,7 +11,9 @@ jobs:
       shell: python
       run: |
         import os
-        dir_results = os.mkdir("test_results")
+        dir_results = "test_results"
+        os.mkdir(dir_results)
+
         two_mb = 2 * 1024 * 1024
 
         path_file_1 = os.path.join(dir_results, "file_1.txt")
@@ -29,6 +31,7 @@ jobs:
       with:
         name: Test File 1
         path: test_results/file_1.txt
+
 
     - name: Multiple File Test
       uses: im-open/zip-upload-artifact@v1
