@@ -26,16 +26,16 @@ jobs:
         with open(path_file_2, "w") as writer:
             writer.write("2" * two_mb)
 
-    - name: Multiple File Test
+    - name: Directory With Files
       uses: im-open/zip-upload-artifact@v1
       with:
-        name: Test Files
+        name: Directory With Text Files
         path: test_results
         retention-days: '3'
 
-    - name: Single File Test
+    - name: Single File
       uses: im-open/zip-upload-artifact@v1
       with:
-        name: Test File 1
+        name: Single Text File
         path: test_results/file_1.txt
         retention-days: '3'
