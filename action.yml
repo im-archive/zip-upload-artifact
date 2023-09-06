@@ -3,7 +3,7 @@ name: Zip & Upload Artifact
 description: Zips Artifact and then Uploads it to GitHub
 
 inputs:
-  # These are the same inputs as the Upload Artifact action
+  # These are the same inputs as the Upload Artifact action.
   # https://github.com/actions/upload-artifact
   name:
     description: The Artifact name
