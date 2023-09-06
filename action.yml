@@ -28,69 +28,59 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Perform Validations on inputs
+    - name: Determine if Path is a File or Directory
       id: validate_inputs
       shell: python
       run: |
         import os
-        print('#######################################')
-        print('Validate Name and Path Inputs')
-        print('#######################################')
-        print('')
-
-        input_name = os.getenv('INPUT_NAME')
-        print(f'- Input Name = {input_name}')
-
-        input_path = os.getenv('INPUT_PATH')
-        print(f'- Input Path = {input_path}')
-
-        is_file = os.path.isfile(input_path)
-        print(f'- Is Input Path File? {is_file}')
 
         def set_env(name, value):
           name_value = f'{name}={value}'
 
           github_output = os.getenv('GITHUB_OUTPUT')
-          print(f'- GitHub Output = {github_output}')
-          print(f'- Set -> {name_value}')
+          print(f'- Set -> {name_value} to GitHub Output {github_output}')
 
           with open(github_output, 'a+') as writer:
             writer.write(f'{name_value}{os.linesep}')
 
-        path_type = 'file' if is_file else 'directory'
-        set_env('PATH_TYPE', path_type)
-      env:
-        INPUT_NAME: ${{ inputs.name }}
-        INPUT_PATH: ${{ inputs.path }}
+        print('#######################################')
+        print('Validate Name and Path Inputs')
+        print('#######################################')
+        print('')
 
-    - name: Zip Artifact File
+        input_name = os.getenv('NAME')
+        print(f'- Input Name = {input_name}')
+
+        input_path = os.getenv('PATH')
+        print(f'- Input Path = {input_path}')
+
+        is_file = os.path.isfile(input_path)
+        path_type = 'file' if is_file else 'directory'
+
+        if path_type == 'file':
+          set_env('INPUT_PATH', input_path)
+          set_env('DESTINATION_PATH', f'./{input_path}.zip')
+
+        else:
+          set_env('INPUT_PATH', f'{input_path}/*')
+          set_env('DESTINATION_PATH', f'./{input_path}/{input_name}.zip')
+      env:
+        NAME: ${{ inputs.name }}
+        PATH: ${{ inputs.path }}
+
+    - name: Zip Artifact
       if: steps.validate_inputs.outputs.PATH_TYPE == 'file'
       shell: pwsh
       run: |
         echo "Zipping Artifact File..."
-        Compress-Archive -Path ./${{ inputs.path }} -DestinationPath "./${{ inputs.path }}.zip"
+        Compress-Archive -Path ./${{ steps.validate_inputs.outputs.INPUT_PATH }} -DestinationPath "./${{ steps.validate_inputs.outputs.DESTINATION_PATH }}"
         echo "DONE!"
 
-    - name: Zip Artifact Directory Files
-      if: steps.validate_inputs.outputs.PATH_TYPE == 'directory'
-      shell: pwsh
-      run: |
-        echo "Zipping Artifact Directory Files..."
-        Compress-Archive -Path ./${{ inputs.path }}/* -DestinationPath "./${{ inputs.path }}/${{ inputs.name }}.zip"
-        echo "DONE!"
-
-    - name: Upload Artifact File
+    - name: Upload Artifact
       if: steps.validate_inputs.outputs.PATH_TYPE == 'file'
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ inputs.name }}
-        path: ${{ inputs.path }}.zip
-
-    - name: Upload Artifact Directory Files
-      if: steps.validate_inputs.outputs.PATH_TYPE == 'directory'
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ inputs.name}}
-        path: ${{ inputs.path }}/${{ inputs.name }}.zip
+        name: ${{ steps.validate_inputs.outputs.INPUT_PATH }}
+        path: ${{ steps.validate_inputs.outputs.DESTINATION_PATH }}
         if-no-files-found: ${{ inputs.if-no-files-found }}
         retention-days: ${{ inputs.retention-days }}
