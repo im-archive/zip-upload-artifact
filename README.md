@@ -13,32 +13,32 @@ This template can be used to quickly start a new custom composite-run-steps acti
   - [Updating the README.md](#updating-the-readmemd)
 - [Code of Conduct](#code-of-conduct)
 - [License](#license)
-  
+
 ## TODOs
 
 - README.md
-  - [ ] Update the Inputs section with the correct action inputs
-  - [ ] Update the Outputs section with the correct action outputs
-  - [ ] Update the Example section with the correct usage
+  - [x] Update the Inputs section with the correct action inputs
+  - [x] Update the Outputs section with the correct action outputs
+  - [x] Update the Example section with the correct usage
 - action.yml
-  - [ ] Fill in the correct name, description, inputs and outputs and implement steps
+  - [x] Fill in the correct name, description, inputs and outputs and implement steps
 - CODEOWNERS
-  - [ ] Update as appropriate
+  - [x] Update as appropriate
 - Repository Settings
-  - [ ] On the *Options* tab check the box to *Automatically delete head branches*
-  - [ ] On the *Options* tab update the repository's visibility
+  - [x] On the *Options* tab check the box to *Automatically delete head branches*
+  - [x] On the *Options* tab update the repository's visibility
   - [ ] On the *Branches* tab add a branch protection rule
-    - [ ] Check *Require pull request reviews before merging*
-    - [ ] Check *Dismiss stale pull request approvals when new commits are pushed*
-    - [ ] Check *Require review from Code Owners*
-    - [ ] Check *Require status checks to pass before merging*
-    - [ ] Check *Require branches to be up to date before merging*
+    - [x] Check *Require pull request reviews before merging*
+    - [x] Check *Dismiss stale pull request approvals when new commits are pushed*
+    - [x] Check *Require review from Code Owners*
+    - [x] Check *Require status checks to pass before merging*
+    - [x] Check *Require branches to be up to date before merging*
     - [ ] Add `update-readme` to the list of required status checks.  This will need to be done after the first `auto-update-readme` workflow runs.
-    - [ ] Check *Do not allow bypassing the above settings*
-  - [ ] On the *Manage Access* tab add the appropriate groups
+    - [x] Check *Do not allow bypassing the above settings*
+  - [x] On the *Manage Access* tab add the appropriate groups
 - About Section (accessed on the main page of the repo, click the gear icon to edit)
-  - [ ] The repo should have a short description of what it is for
-  - [ ] Add one of the following topic tags:
+  - [x] The repo should have a short description of what it is for
+  - [x] Add one of the following topic tags:
     | Topic Tag       | Usage                                    |
     | --------------- | ---------------------------------------- |
     | az              | For actions related to Azure             |
@@ -54,35 +54,37 @@ This template can be used to quickly start a new custom composite-run-steps acti
     | pagerduty       | For actions related to PagerDuty         |
     | test            | For actions related to testing           |
     | tf              | For actions related to Terraform         |
-  - [ ] Add any additional topics for an action if they apply  
+  - [x] Add any additional topics for an action if they apply
 - Address any remaining TODOs
 
 ## Inputs
 
-| Parameter | Is Required | Description           |
-| --------- | ----------- | --------------------- |
-| `input`   | true        | Description goes here |
+| Parameter               | Is Required | Default Value       | Description           |
+| ----------------------- | ----------- | ------------------- | --------------------- |
+| `name`                  | false       | artifact            | The Artifact Name |
+| `path`                  | true        | N/A, required value | A file, directory, or wildcard pattern that describes what to upload |
+| `if-no-files-found`     | false       | warn                | The action to take if no files are found at the path. Options are `warn`, `error`, or `info`. |
+| `retention-days`        | false       | 15                  | The number of days to retain the artifact before it expires. |
+
 
 ## Outputs
 
-| Output   | Description           |
-| -------- | --------------------- |
-| `output` | Description goes here |
+This workflow has zero outputs.
 
 ## Example
 
 ```yml
-# TODO: Fill in the correct usage
 jobs:
   job1:
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, im-linux]
     steps:
       - uses: actions/checkout@v3
 
-      - name: ''
-        uses: im-open/thisrepo@v1.0.0 # TODO: fix the action name
+      - name: 'Zip and Upload Artifact'
+        uses: im-open/zip-upload-artifact@v1.0.0
         with:
-          input-1: ''
+          name: ${{ env.CODE_COVERAGE_REPORT_NAME }}
+          path: ${{ env.CODE_COVERAGE_DIR }}
 ```
 
 ## Contributing
@@ -107,7 +109,7 @@ This repo uses [git-version-lite] in its workflows to examine commit messages to
 
 ### Source Code Changes
 
-The files and directories that are considered source code are listed in the `files-with-code` and `dirs-with-code` arguments in both the [build-and-review-pr] and [increment-version-on-merge] workflows.  
+The files and directories that are considered source code are listed in the `files-with-code` and `dirs-with-code` arguments in both the [build-and-review-pr] and [increment-version-on-merge] workflows.
 
 If a PR contains source code changes, the README.md should be updated with the latest action version.  The [build-and-review-pr] workflow will ensure these steps are performed when they are required.  The workflow will provide instructions for completing these steps if the PR Author does not initially complete them.
 
