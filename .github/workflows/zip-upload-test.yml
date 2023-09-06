@@ -1,0 +1,37 @@
+name: Zip Upload Artifact Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Test Files
+      shell: python
+      run: |
+        import os
+        dir_results = os.mkdir("test_results")
+        two_mb = 2 * 1024 * 1024
+
+        path_file_1 = os.path.join(dir_results, "file_1.txt")
+        print(f"Create file 1 at: {path_file_1}")
+        with open(path_file_1, "w") as writer:
+            writer.write("1" * two_mb)
+
+        path_file_2 = os.path.join(dir_results, "file_2.txt")
+        print(f"Create file 2 at: {path_file_1}")
+        with open(path_file_2, "w") as writer:
+            writer.write("2" * two_mb)
+
+    - name: Single File Test
+      uses: im-open/zip-upload-artifact@v1
+      with:
+        name: Test File 1
+        path: test_results/file_1.txt
+
+    - name: Multiple File Test
+      uses: im-open/zip-upload-artifact@v1
+      with:
+        name: Test Files
+        path: test_results
