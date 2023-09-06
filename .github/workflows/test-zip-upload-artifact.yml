@@ -11,20 +11,24 @@ jobs:
       shell: python
       run: |
         import os
+
+        def create_file(path_file):
+          two_mb = 2 * 1024 * 1024
+          print(f"Create file at: {path_file}")
+          with open(path_file, "w") as writer:
+            writer.write("*" * two_mb)
+
         dir_results = "test_results"
         os.mkdir(dir_results)
 
-        two_mb = 2 * 1024 * 1024
+        path_file_0 = "file_0.txt"
+        create_file(path_file_0)
 
         path_file_1 = os.path.join(dir_results, "file_1.txt")
-        print(f"Create file 1 at: {path_file_1}")
-        with open(path_file_1, "w") as writer:
-            writer.write("1" * two_mb)
+        create_file(path_file_1)
 
         path_file_2 = os.path.join(dir_results, "file_2.txt")
-        print(f"Create file 2 at: {path_file_1}")
-        with open(path_file_2, "w") as writer:
-            writer.write("2" * two_mb)
+        create_file(path_file_2)
 
     - name: Directory With Files
       uses: im-open/zip-upload-artifact@v1
@@ -33,9 +37,16 @@ jobs:
         path: test_results
         retention-days: '3'
 
-    - name: Single File
+    - name: Single File in a Directory
       uses: im-open/zip-upload-artifact@v1
       with:
-        name: Single Text File
+        name: Single Text File in Directory
         path: test_results/file_1.txt
+        retention-days: '3'
+
+    - name: Single File at Root Directory
+      uses: im-open/zip-upload-artifact@v1
+      with:
+        name: Single Test File at Root Directory
+        path: file_0.txt
         retention-days: '3'
