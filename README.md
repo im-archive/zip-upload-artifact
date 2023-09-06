@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: 'Zip and Upload Artifact'
-        uses: im-open/zip-upload-artifact@v1.0.0
+        uses: im-open/zip-upload-artifact@v1.0.1
         with:
           name: ${{ env.CODE_COVERAGE_REPORT_NAME }}
           path: ${{ env.CODE_COVERAGE_DIR }}
