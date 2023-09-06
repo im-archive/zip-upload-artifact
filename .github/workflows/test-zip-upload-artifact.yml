@@ -30,7 +30,7 @@ jobs:
         path_file_2 = os.path.join(dir_results, "file_2.txt")
         create_file(path_file_2)
 
-    - name: Directory With Files
+    - name: Test Directory With Files
       if: always()
       uses: im-open/zip-upload-artifact@get-test-working
       with:
@@ -38,7 +38,7 @@ jobs:
         path: test_results
         retention-days: '3'
 
-    - name: Single File in a Directory
+    - name: Test Single File in a Directory
       if: always()
       uses: im-open/zip-upload-artifact@get-test-working
       with:
@@ -46,7 +46,7 @@ jobs:
         path: test_results/file_1.txt
         retention-days: '3'
 
-    - name: Single File at Root Directory
+    - name: Test Single File at Root Directory
       if: always()
       uses: im-open/zip-upload-artifact@get-test-working
       with:
