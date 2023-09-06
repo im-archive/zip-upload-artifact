@@ -60,15 +60,17 @@ runs:
       if: env.PATH_IS_FILE == 'true'
       shell: pwsh
       run: |
-        echo "Zipping ${{ inputs.name }}"
+        echo "Zipping Artifact File..."
         Compress-Archive -Path ./${{ inputs.path }} -DestinationPath "./${{ inputs.path }}.zip"
+        echo "DONE!"
 
     - name: Zip Artifact Directory Files
       if: env.PATH_IS_DIRECTORY == 'true'
       shell: pwsh
       run: |
-        echo "Zipping ${{ inputs.name }}"
+        echo "Zipping Artifact Directory Files..."
         Compress-Archive -Path ./${{ inputs.path }}/* -DestinationPath "./${{ inputs.path }}/${{ inputs.name }}.zip"
+        echo "DONE!"
 
     - name: Upload Artifact Directory Files
       if: env.PATH_IS_DIRECTORY == 'true'

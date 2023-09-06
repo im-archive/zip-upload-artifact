@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  test-zip-upload-artifact:
     runs-on: ubuntu-latest
     steps:
     - name: Create Test Files
