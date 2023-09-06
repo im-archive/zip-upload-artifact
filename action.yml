@@ -59,8 +59,11 @@ runs:
     - name: Show Validations
       shell: bash
       run: |
-        echo "Path is File = $PATH_IS_FILE"
-        echo "Path is Directory = $PATH_IS_DIRECTORY"
+        echo "Path is File = $IS_FILE"
+        echo "Path is Directory = $IS_DIR"
+      env:
+        IS_FILE: ${{ env.PATH_IS_FILE }}
+        IS_DIR: ${{ env.PATH_IS_DIRECTORY  }}
 
     - name: Zip Artifact File
       if: env.PATH_IS_FILE == 'true'
