@@ -14,49 +14,6 @@ This template can be used to quickly start a new custom composite-run-steps acti
 - [Code of Conduct](#code-of-conduct)
 - [License](#license)
 
-## TODOs
-
-- README.md
-  - [x] Update the Inputs section with the correct action inputs
-  - [x] Update the Outputs section with the correct action outputs
-  - [x] Update the Example section with the correct usage
-- action.yml
-  - [x] Fill in the correct name, description, inputs and outputs and implement steps
-- CODEOWNERS
-  - [x] Update as appropriate
-- Repository Settings
-  - [x] On the *Options* tab check the box to *Automatically delete head branches*
-  - [x] On the *Options* tab update the repository's visibility
-  - [ ] On the *Branches* tab add a branch protection rule
-    - [x] Check *Require pull request reviews before merging*
-    - [x] Check *Dismiss stale pull request approvals when new commits are pushed*
-    - [x] Check *Require review from Code Owners*
-    - [x] Check *Require status checks to pass before merging*
-    - [x] Check *Require branches to be up to date before merging*
-    - [ ] Add `update-readme` to the list of required status checks.  This will need to be done after the first `auto-update-readme` workflow runs.
-    - [x] Check *Do not allow bypassing the above settings*
-  - [x] On the *Manage Access* tab add the appropriate groups
-- About Section (accessed on the main page of the repo, click the gear icon to edit)
-  - [x] The repo should have a short description of what it is for
-  - [x] Add one of the following topic tags:
-    | Topic Tag       | Usage                                    |
-    | --------------- | ---------------------------------------- |
-    | az              | For actions related to Azure             |
-    | code            | For actions related to building code     |
-    | certs           | For actions related to certificates      |
-    | db              | For actions related to databases         |
-    | git             | For actions related to Git               |
-    | iis             | For actions related to IIS               |
-    | microsoft-teams | For actions related to Microsoft Teams   |
-    | svc             | For actions related to Windows Services  |
-    | jira            | For actions related to Jira              |
-    | meta            | For actions related to running workflows |
-    | pagerduty       | For actions related to PagerDuty         |
-    | test            | For actions related to testing           |
-    | tf              | For actions related to Terraform         |
-  - [x] Add any additional topics for an action if they apply
-- Address any remaining TODOs
-
 ## Inputs
 
 | Parameter               | Is Required | Default Value       | Description           |
