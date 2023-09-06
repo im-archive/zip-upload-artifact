@@ -48,7 +48,7 @@ runs:
         print(f'- Is Input Path File? {is_file}')
 
         def set_env(name, value):
-          name_value = f'{name}={value}
+          name_value = f'{name}={value}'
 
           github_output = os.getenv('GITHUB_OUTPUT')
           print(f'- GitHub Output = {github_output}')
