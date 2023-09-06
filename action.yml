@@ -53,11 +53,11 @@ runs:
 
         if os.path.isfile(input_path):
           set_env('INPUT_PATH', input_path)
-          set_env('DESTINATION_PATH', f'./{input_path}.zip')
+          set_env('DESTINATION_PATH', f'{input_path}.zip')
 
         else:
           set_env('INPUT_PATH', f'{input_path}/*')
-          set_env('DESTINATION_PATH', f'./{input_path}/{input_name}.zip')
+          set_env('DESTINATION_PATH', f'{input_path}/{input_name}.zip')
 
         print('Done Validating!')
       env:
