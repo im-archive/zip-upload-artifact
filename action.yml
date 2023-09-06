@@ -33,7 +33,11 @@ runs:
       shell: python
       run: |
         import os
-        echo "Validate Name and Path"
+        print('#######################################')
+        print('Validate Name and Path Inputs')
+        print('#######################################')
+        print('')
+
         input_name = os.getenv('INPUT_NAME')
         print(f'Input Name = {input_name}')
 
@@ -41,10 +45,10 @@ runs:
         print(f'Input Path = {input_path}')
 
         is_directory = os.path.isdir(input_path)
-        print(f'Is Path Directory? {is_directory}')
+        print(f'Is Input Path Directory? {is_directory}')
 
         is_file = os.path.isfile(input_path)
-        print(f'Is Path File? {is_file}')
+        print(f'Is Input Path File? {is_file}')
 
         os.environ['PATH_IS_FILE'] = is_file
         os.environ['PATH_IS_DIRECTORY'] = is_directory
