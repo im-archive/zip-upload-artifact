@@ -31,6 +31,7 @@ jobs:
         create_file(path_file_2)
 
     - name: Directory With Files
+      if: always()
       uses: im-open/zip-upload-artifact@v1
       with:
         name: Directory With Text Files
@@ -38,6 +39,7 @@ jobs:
         retention-days: '3'
 
     - name: Single File in a Directory
+      if: always()
       uses: im-open/zip-upload-artifact@v1
       with:
         name: Single Text File in Directory
@@ -45,6 +47,7 @@ jobs:
         retention-days: '3'
 
     - name: Single File at Root Directory
+      if: always()
       uses: im-open/zip-upload-artifact@v1
       with:
         name: Single Test File at Root Directory
