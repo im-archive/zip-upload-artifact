@@ -44,11 +44,9 @@ runs:
         input_path = os.getenv('INPUT_PATH')
         print(f'- Input Path = {input_path}')
 
-        is_directory = os.path.isdir(input_path)
-        print(f'- Is Input Path Directory? {is_directory}')
-
         is_file = os.path.isfile(input_path)
         print(f'- Is Input Path File? {is_file}')
+
 
         def set_env(name, value):
           name_value = f'{name}={value}{os.linesep}'
@@ -60,10 +58,8 @@ runs:
           with open(github_output, 'a+') as writer:
             writer.write(name_value)
 
-        os.environ['PATH_IS_FILE'] = 'true' if is_file else 'false'
-        os.environ['PATH_IS_DIRECTORY'] = 'true' if is_directory else 'false'
-
-
+        path_type = 'file' if is_file else 'directory'
+        set_env('PATH_TYPE', path_type)
       env:
         INPUT_NAME: ${{ inputs.name }}
         INPUT_PATH: ${{ inputs.path }}
@@ -78,7 +74,7 @@ runs:
         IS_DIR: ${{ steps.validate_inputs.outputs.PATH_IS_DIRECTORY }}
 
     - name: Zip Artifact File
-      if: env.PATH_IS_FILE == 'true'
+      if: env.PATH_TYPE == 'file'
       shell: pwsh
       run: |
         echo "Zipping Artifact File..."
@@ -86,25 +82,25 @@ runs:
         echo "DONE!"
 
     - name: Zip Artifact Directory Files
-      if: env.PATH_IS_DIRECTORY == 'true'
+      if: env.PATH_TYPE == 'directory'
       shell: pwsh
       run: |
         echo "Zipping Artifact Directory Files..."
         Compress-Archive -Path ./${{ inputs.path }}/* -DestinationPath "./${{ inputs.path }}/${{ inputs.name }}.zip"
         echo "DONE!"
 
+    - name: Upload Artifact File
+      if: env.PATH_TYPE == 'file'
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.path }}.zip
+
     - name: Upload Artifact Directory Files
-      if: env.PATH_IS_DIRECTORY == 'true'
+      if: env.PATH_TYPE == 'directory'
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.name}}
         path: ${{ inputs.path }}/${{ inputs.name }}.zip
         if-no-files-found: ${{ inputs.if-no-files-found }}
         retention-days: ${{ inputs.retention-days }}
-
-    - name: Upload Artifact File
-      if: env.PATH_IS_FILE == 'true'
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ inputs.name }}
-        path: ${{ inputs.path }}.zip
