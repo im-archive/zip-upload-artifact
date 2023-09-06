@@ -44,8 +44,6 @@ runs:
         input_path = os.getenv('INPUT_PATH')
         print(f'- Input Path = {input_path}')
 
-
-
         is_directory = os.path.isdir(input_path)
         print(f'- Is Input Path Directory? {is_directory}')
 
