@@ -31,9 +31,11 @@ jobs:
       with:
         name: Test Files
         path: test_results
+        retention-days: '3'
 
     - name: Single File Test
       uses: im-open/zip-upload-artifact@v1
       with:
         name: Test File 1
         path: test_results/file_1.txt
+        retention-days: '3'
