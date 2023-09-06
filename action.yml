@@ -56,6 +56,12 @@ runs:
         INPUT_NAME: ${{ inputs.name }}
         INPUT_PATH: ${{ inputs.path }}
 
+    - name: Show Validations
+      shell: bash
+      run: |
+        echo "Path is File = $PATH_IS_FILE"
+        echo "Path is Directory = $PATH_IS_DIRECTORY"
+
     - name: Zip Artifact File
       if: env.PATH_IS_FILE == 'true'
       shell: pwsh
