@@ -51,7 +51,10 @@ runs:
         print(f'- Is Input Path File? {is_file}')
 
         os.environ['PATH_IS_FILE'] = str(is_file).lower()
+        print(f'- Set PATH_IS_FILE = {is_file}')
+
         os.environ['PATH_IS_DIRECTORY'] = str(is_directory).lower()
+        print(f'- Set PATH_IS_DIRECTORY = {is_directory}')
       env:
         INPUT_NAME: ${{ inputs.name }}
         INPUT_PATH: ${{ inputs.path }}
