@@ -67,11 +67,10 @@ runs:
     - name: Show Validations
       shell: bash
       run: |
-        echo "Path is File = $IS_FILE"
+        echo "Path Type = $PATH_TYPE"
         echo "Path is Directory = $IS_DIR"
       env:
-        IS_FILE: ${{ steps.validate_inputs.outputs.PATH_IS_FILE }}
-        IS_DIR: ${{ steps.validate_inputs.outputs.PATH_IS_DIRECTORY }}
+        PATH_TYPE: ${{ steps.validate_inputs.outputs.PATH_TYPE }}
 
     - name: Zip Artifact File
       if: env.PATH_TYPE == 'file'
