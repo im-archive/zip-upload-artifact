@@ -29,7 +29,7 @@ runs:
   using: 'composite'
   steps:
     - name: Determine if Path is a File or Directory
-      id: validate_inputs
+      id: validations
       shell: python
       run: |
         import os
@@ -69,17 +69,26 @@ runs:
         INPUT_NAME: ${{ inputs.name }}
         INPUT_PATH: ${{ inputs.path }}
 
+    - name: Show validation outputs
+      shell: bash
+      run: |
+        echo "LOOKUP_PATH: $LOOKUP_PATH"
+        echo "DESTINATION_PATH: $DESTINATION_PATH"
+      env:
+        LOOKUP_PATH: ${{ steps.validations.outputs.LOOKUP_PATH }}
+        DESTINATION_PATH: ${{ steps.validations.outputs.DESTINATION_PATH }}
+
     - name: Zip Artifact
       shell: pwsh
       run: |
         echo "Zipping Artifact File..."
-        Compress-Archive -Path ./${{ steps.validate_inputs.outputs.LOOKUP_PATH }} -DestinationPath "./${{ steps.validate_inputs.outputs.DESTINATION_PATH }}"
+        Compress-Archive -Path ./${{ steps.validations.outputs.LOOKUP_PATH }} -DestinationPath "./${{ steps.validations.outputs.DESTINATION_PATH }}"
         echo "DONE!"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.name }}
-        path: ${{ steps.validate_inputs.outputs.DESTINATION_PATH }}
+        path: ${{ steps.validations.outputs.DESTINATION_PATH }}
         if-no-files-found: ${{ inputs.if-no-files-found }}
         retention-days: ${{ inputs.retention-days }}
