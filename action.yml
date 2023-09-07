@@ -45,7 +45,6 @@ runs:
         print('#######################################')
         print('Validate path')
         print('#######################################')
-        print('')
 
         input_name = os.getenv('INPUT_NAME')
         print(f'- Incoming Input Name: {input_name}')
