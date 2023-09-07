@@ -65,6 +65,7 @@ runs:
           set_env('DESTINATION_PATH', f'{input_path}/{input_name}.zip')
 
         print('Done Validating!')
+        print('')
       env:
         INPUT_NAME: ${{ inputs.name }}
         INPUT_PATH: ${{ inputs.path }}
