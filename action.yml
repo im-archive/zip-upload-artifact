@@ -36,7 +36,7 @@ runs:
 
         def set_env(name, value):
           name_value = f'{name}={value}'
-          print(f'- Set {name_value}...')
+          print(f'- Set {name_value}')
 
           github_output = os.getenv('GITHUB_OUTPUT')
           with open(github_output, 'a+') as writer:
