@@ -84,7 +84,7 @@ runs:
       shell: pwsh
       run: |
         echo "Zipping Artifact File..."
-        Compress-Archive -Path ./${{ steps.validation.outputs.LOOKUP_PATH }} -DestinationPath "./${{ steps.validation.outputs.DESTINATION_PATH }}"
+        Compress-Archive -Path "./${{ steps.validation.outputs.LOOKUP_PATH }}" -DestinationPath "./${{ steps.validation.outputs.DESTINATION_PATH }}"
         echo "DONE!"
 
     - name: Upload Artifact
