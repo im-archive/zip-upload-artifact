@@ -35,7 +35,7 @@ runs:
         import os
 
         def set_env(name, value):
-          name_value = f'{name}={value}'
+          name_value = f'{name}={value.strip()}'
           print(f'- Set {name_value}')
 
           github_output = os.getenv('GITHUB_OUTPUT')
@@ -75,9 +75,6 @@ runs:
         echo "Show validation outputs that have been set in the validation step..."
         echo "LOOKUP_PATH: $LOOKUP_PATH"
         echo "DESTINATION_PATH: $DESTINATION_PATH"
-        echo ""
-        echo "show files in lookup $LOOKUP_PATH"
-        ls -la $LOOKUP_PATH
         echo ""
       env:
         LOOKUP_PATH: ${{ steps.validation.outputs.LOOKUP_PATH }}
