@@ -76,6 +76,9 @@ runs:
         echo "LOOKUP_PATH: $LOOKUP_PATH"
         echo "DESTINATION_PATH: $DESTINATION_PATH"
         echo ""
+        echo "show files in lookup $LOOKUP_PATH"
+        ls -la $LOOKUP_PATH
+        echo ""
       env:
         LOOKUP_PATH: ${{ steps.validation.outputs.LOOKUP_PATH }}
         DESTINATION_PATH: ${{ steps.validation.outputs.DESTINATION_PATH }}
