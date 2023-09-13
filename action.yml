@@ -72,8 +72,10 @@ runs:
     - name: Show validation outputs
       shell: bash
       run: |
+        echo "Show validation outputs that have been set in the validation step..."
         echo "LOOKUP_PATH: $LOOKUP_PATH"
         echo "DESTINATION_PATH: $DESTINATION_PATH"
+        echo ""
       env:
         LOOKUP_PATH: ${{ steps.validation.outputs.LOOKUP_PATH }}
         DESTINATION_PATH: ${{ steps.validation.outputs.DESTINATION_PATH }}
