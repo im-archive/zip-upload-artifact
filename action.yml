@@ -57,10 +57,14 @@ runs:
         print(f'- Is Path a File: {is_path_file}')
 
         if is_path_file:
+          echo "Setting LOOKUP_PATH for a single file!"
+          echo ""
           set_env('LOOKUP_PATH', input_path)
           set_env('DESTINATION_PATH', f'{input_path}.zip')
 
         else:
+          echo "Setting LOOKUP_PATH for a directory!"
+          echo ""
           set_env('LOOKUP_PATH', f'{input_path}/*')
           set_env('DESTINATION_PATH', f'{input_path}/{input_name}.zip')
 
