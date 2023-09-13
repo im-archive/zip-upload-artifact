@@ -35,12 +35,13 @@ runs:
         import os
 
         def set_env(name, value):
+          line_sep = "\n"
           name_value = f'{name}={value.strip()}'
           print(f'- Set {name_value}')
 
           github_output = os.getenv('GITHUB_OUTPUT')
           with open(github_output, 'a+') as writer:
-            writer.write(f'{name_value}{os.linesep}')
+            writer.write(f'{name_value}{line_sep}')
 
         print('#######################################')
         print('Validate path')
