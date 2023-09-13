@@ -35,7 +35,9 @@ jobs:
 
     - name: Show files in root
       shell: bash
-      run: ls -la
+      run: |
+        pwd
+        ls -la
 
     - name: Test Directory With Files
       if: always()
