@@ -40,7 +40,7 @@ runs:
 
           github_output = os.getenv('GITHUB_OUTPUT')
           with open(github_output, 'a+') as writer:
-            writer.write(f'{name_value}')
+            writer.write(f'{name_value}{os.linesep}')
 
         print('#######################################')
         print('Validate path')
