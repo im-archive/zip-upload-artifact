@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -58,11 +59,11 @@ class Zipper:
                 else:
                     print(f"- ERROR: Cannot find {path}!")
                     print("- Show current directory contents:")
-                    os.system("ls -l")
+                    print(subprocess.check_output("ls -l", shell=True).decode())
                     print("Show Content Directories one directory up:")
-                    os.system("cd .. && pwd && ls -l")
+                    print(subprocess.check_output("cd .. && pwd && ls -l", shell=True).decode())
                     print("Show Content Directories two directories up:")
-                    os.system("cd ../.. && pwd && ls -l")
+                    print(subprocess.check_output("cd ../.. && pwd && ls -l", shell=True).decode())
                 
         print(f"- Total files added to '{zip_name}': {file_count}")
         print("")
