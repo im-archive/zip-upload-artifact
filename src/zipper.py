@@ -31,8 +31,7 @@ class Zipper:
         zip_name = f"{self.name}.zip"
         file_count = 0
 
-        with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:
-            
+        with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:            
             print(f"Creating '{zip_name}'...")
             for path in self.included_paths:
                 print(f"Check path: {path}...")
@@ -54,6 +53,11 @@ class Zipper:
                                 file_count += 1
                             else:
                                 print(f"- Excluding file: {path}")
+
+                else:
+                    print(f"- ERROR: Cannot find {path}!")
+                    print("- Show current directory contents:")
+                    os.system("ls -l")
                 
         print(f"- Total files added to '{zip_name}': {file_count}")
         print("")
