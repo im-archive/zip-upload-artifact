@@ -89,6 +89,6 @@ class Zipper:
 
 if __name__ == "__main__":
     name = os.getenv("FILE_NAME")
-    path = os.getenv("FILE_PATH")
+    path = os.getenv("FILE_PATH").splitlines()
     zipper = Zipper(name=name, path=path)
     zipper.run()
