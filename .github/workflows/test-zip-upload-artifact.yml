@@ -10,60 +10,30 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
-    - name: Create Test Files
-      shell: python
+    - name: Run Python Tests
+      if: always()
+      shell: bash
       run: |
-        import os
+        pip install pytest
 
-        def create_file(path_file):
-          two_mb = 2 * 1024 * 1024
-          print(f"Create file at: {path_file}")
-          with open(path_file, "w") as writer:
-            writer.write("*" * two_mb)
+        pytest ./src/test_zipper.py
 
-        dir_results = "test_results"
-        os.mkdir(dir_results)
+    - name: Setup Files
+      shell: bash
+      run: |
+        mkdir "temp"
+        mkdir "temp/subfolder"
+        touch "temp/test-root.txt"
+        touch "temp/subfolder/test-sub1.txt"
+        touch "temp/subfolder/test-sub2.txt"
 
-        path_file_0 = "file_0.txt"
-        create_file(path_file_0)
-
-        path_file_1 = os.path.join(dir_results, "file_1.txt")
-        create_file(path_file_1)
-
-        path_file_2 = os.path.join(dir_results, "file_2.txt")
-        create_file(path_file_2)
-
-    - name: Test Directory With Files
+    - name: Upload Artifact with Exclusions
       if: always()
-      uses: ./
+      uses: actions/upload-artifact@v2
       with:
-        name: Directory With Text Files
-        path: test_results
-        retention-days: '3'
-
-    - name: Test Single File in a Directory
-      if: always()
-      uses: ./
-      with:
-        name: Single Text File in Directory
-        path: test_results/file_1.txt
-        retention-days: '3'
-
-    - name: Test Single File at Root Directory
-      if: always()
-      uses: ./
-      with:
-        name: Single Test File at Root Directory
-        path: file_0.txt
-        retention-days: '3'
-
-    - name: Test with Root file and dir files
-      if: always()
-      uses: ./
-      with:
-        name: Root file and dir files
+        name: test-artifact
         path: |
-          file_0.txt
-          test_results/
-        retention-days: '3'
-
+          temp/test-root.txt
+          temp/subfolder/
+          !temp/subfolder/test-sub2.txt
+    

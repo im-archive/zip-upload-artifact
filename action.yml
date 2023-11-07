@@ -28,75 +28,17 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Determine if Path is a File or Directory
-      id: validation
-      shell: python
-      run: |
-        import os
-
-        def set_env(name, value):
-          line_sep = "\n"
-          name_value = f'{name}={value.strip()}'
-          print(f'- Set {name_value}')
-
-          github_output = os.getenv('GITHUB_OUTPUT')
-          with open(github_output, 'a+') as writer:
-            writer.write(f'{name_value}{line_sep}')
-
-        print('#######################################')
-        print('Validate path')
-        print('#######################################')
-
-        input_name = os.getenv('INPUT_NAME')
-        print(f'- Incoming Input Name: {input_name}')
-
-        input_path = os.getenv('INPUT_PATH')
-        print(f'- Incoming Input Path: {input_path}')
-
-        is_path_file = os.path.isfile(input_path)
-        print(f'- Is Path a File: {is_path_file}')
-
-        if is_path_file:
-          print("Setting LOOKUP_PATH for a single file!")
-          print("")
-
-          set_env('LOOKUP_PATH', input_path)
-          set_env('DESTINATION_PATH', f'{input_path}.zip')
-
-        else:
-          print("Setting LOOKUP_PATH for a directory!")
-          print("")
-          set_env('LOOKUP_PATH', f'{input_path}/*')
-          set_env('DESTINATION_PATH', f'{input_path}/{input_name}.zip')
-
-        print('Done Validating!')
-        print('')
+    - name: Validate Paths
+      shell: shell
+      run: python ./src/zipper.py
       env:
-        INPUT_NAME: ${{ inputs.name }}
-        INPUT_PATH: ${{ inputs.path }}
-
-    - name: Show validation outputs
-      shell: bash
-      run: |
-        echo "Show validation outputs that have been set in the validation step..."
-        echo "LOOKUP_PATH: $LOOKUP_PATH"
-        echo "DESTINATION_PATH: $DESTINATION_PATH"
-        echo ""
-      env:
-        LOOKUP_PATH: ${{ steps.validation.outputs.LOOKUP_PATH }}
-        DESTINATION_PATH: ${{ steps.validation.outputs.DESTINATION_PATH }}
-
-    - name: Zip Artifact
-      shell: pwsh
-      run: |
-        echo "Zipping Artifact File..."
-        Compress-Archive -Path "./${{ steps.validation.outputs.LOOKUP_PATH }}" -DestinationPath "./${{ steps.validation.outputs.DESTINATION_PATH }}"
-        echo "DONE!"
+        NAME: ${{ inputs.name }}
+        PATH: ${{ inputs.path }}
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.name }}
-        path: ${{ steps.validation.outputs.DESTINATION_PATH }}
+        path: ${{ inputs.name}}.zip
         if-no-files-found: ${{ inputs.if-no-files-found }}
         retention-days: ${{ inputs.retention-days }}

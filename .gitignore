@@ -1,0 +1,5 @@
+.env
+test_results
+*.zip
+.pytest_cache
+temp
