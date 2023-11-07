@@ -48,6 +48,11 @@ runs:
         NAME: ${{ inputs.name }}
         PATH: ${{ inputs.path }}
 
+    
+    - name: Show Contents at directory
+      shell: bash
+      run: ls -l
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
