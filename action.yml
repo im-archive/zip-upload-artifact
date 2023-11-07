@@ -40,8 +40,8 @@ runs:
       shell: bash
       run: python3 ./src/zipper.py
       env:
-        NAME: ${{ inputs.name }}
-        PATH: ${{ inputs.path }}
+        FILE_NAME: ${{ inputs.name }}
+        FILE_PATH: ${{ inputs.path }}
     
     - name: Print size of zip file
       shell: bash

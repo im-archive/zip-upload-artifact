@@ -31,11 +31,14 @@ class Zipper:
         zip_name = f"{self.name}.zip"
         print("")
         print(f"Creating '{zip_name}'...")
+
+        file_count = 0
         with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:
             for path in self.included_paths:
                 if os.path.isfile(path) and path not in self.excluded_paths:
                     print(f"- Adding file: {path}")
                     zip_writer.write(path)
+                    file_count += 1
 
                 elif os.path.isdir(path):
                     for dir_path, _, filenames in os.walk(path):
@@ -44,8 +47,9 @@ class Zipper:
                             if file_path not in self.excluded_paths:
                                 print(f"- Adding file: {path}")
                                 zip_writer.write(file_path)
-
-        print(f"Done creating '{zip_name}'!")
+                                file_count += 1
+                
+        print(f"* Total files added to '{zip_name}': {file_count}")
         print("")
         return zip_name
     
@@ -74,7 +78,7 @@ class Zipper:
 
 
 if __name__ == "__main__":
-    name = os.getenv("NAME")
-    path = os.getenv("PATH")
+    name = os.getenv("FILE_NAME")
+    path = os.getenv("FILE_PATH")
     zipper = Zipper(name=name, path=path)
     zipper.run()
