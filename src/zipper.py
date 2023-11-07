@@ -29,11 +29,11 @@ class Zipper:
             str: The name of the zip file created
         """
         zip_name = f"{self.name}.zip"
-        print("")
-        print(f"Creating '{zip_name}'...")
-
         file_count = 0
+
         with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:
+            
+            print(f"Creating '{zip_name}'...")
             for path in self.included_paths:
                 print(f"Check path: {path}...")
                 if os.path.isfile(path):
