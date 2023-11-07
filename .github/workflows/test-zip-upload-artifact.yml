@@ -16,7 +16,7 @@ jobs:
       run: |
         pip install pytest
 
-        pytest ./src/test_zipper.py
+        pytest -s ./src/test_zipper.py
 
     - name: Setup Files
       shell: bash
@@ -28,13 +28,26 @@ jobs:
         echo "Test Sub 1" > temp/subfolder/test-sub1.txt
         echo "Test Sub 2" > temp/subfolder/test-sub2.txt
 
-    - name: Upload Artifact with Exclusions
+    - name: Artifact with Root and Sub 2
       if: always()
-      uses: actions/upload-artifact@v2
+      uses: ./
       with:
-        name: test-artifact
+        name: with-root-sub-2-no-sub1
         path: |
           temp/test-root.txt
           temp/subfolder/
           !temp/subfolder/test-sub2.txt
-    
+
+    - name: Artifact with Sub 1 and 2
+      if: always()
+      uses: ./
+      with:
+        name: with-sub1-and-sub2
+        path: temp/subfolder
+
+    - name: Artifact with Root
+      if: always()
+      uses: ./
+      with:
+        name: with-root
+        path: temp/test-root.txt

@@ -28,7 +28,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Validate Paths
+    - name: Create Artifact Zip
       shell: shell
       run: python ./src/zipper.py
       env:
