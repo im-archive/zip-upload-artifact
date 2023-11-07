@@ -23,9 +23,10 @@ jobs:
       run: |
         mkdir "temp"
         mkdir "temp/subfolder"
-        touch "temp/test-root.txt"
-        touch "temp/subfolder/test-sub1.txt"
-        touch "temp/subfolder/test-sub2.txt"
+
+        echo "Test Root" > temp/test-root.txt
+        echo "Test Sub 1" > temp/subfolder/test-sub1.txt
+        echo "Test Sub 2" > temp/subfolder/test-sub2.txt
 
     - name: Upload Artifact with Exclusions
       if: always()
