@@ -49,7 +49,7 @@ class Zipper:
                                 zip_writer.write(file_path)
                                 file_count += 1
                 
-        print(f"* Total files added to '{zip_name}': {file_count}")
+        print(f"- Total files added to '{zip_name}': {file_count}")
         print("")
         return zip_name
     
