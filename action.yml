@@ -29,7 +29,7 @@ runs:
   using: 'composite'
   steps:
     - name: Create Artifact Zip
-      shell: shell
+      shell: bash
       run: python3 ./src/zipper.py
       env:
         NAME: ${{ inputs.name }}
