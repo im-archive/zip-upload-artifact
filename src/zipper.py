@@ -35,10 +35,14 @@ class Zipper:
         file_count = 0
         with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:
             for path in self.included_paths:
-                if os.path.isfile(path) and path not in self.excluded_paths:
-                    print(f"- Adding file: {path}")
-                    zip_writer.write(path)
-                    file_count += 1
+                print(f"Check path: {path}...")
+                if os.path.isfile(path):
+                    if path not in self.excluded_paths:
+                        print(f"- Adding file: {path}")
+                        zip_writer.write(path)
+                        file_count += 1
+                    else:
+                        print(f"- Excluding file: {path}")
 
                 elif os.path.isdir(path):
                     for dir_path, _, filenames in os.walk(path):
@@ -48,6 +52,8 @@ class Zipper:
                                 print(f"- Adding file: {path}")
                                 zip_writer.write(file_path)
                                 file_count += 1
+                            else:
+                                print(f"- Excluding file: {path}")
                 
         print(f"- Total files added to '{zip_name}': {file_count}")
         print("")
