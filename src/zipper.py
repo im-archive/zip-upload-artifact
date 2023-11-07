@@ -3,6 +3,10 @@ import os
 from zipfile import ZipFile, ZIP_DEFLATED
 
 class Zipper:
+    """
+    A class used to create a zip file from a given name and path
+    """
+    
     def __init__(self, name: str, path: str) -> None:
         print("Input Parameters")
         print(f"- Name = {name}")
@@ -66,7 +70,6 @@ class Zipper:
                     paths.append(item[1:])
 
         return paths
-
 
 
 

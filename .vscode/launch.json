@@ -6,6 +6,7 @@
             "request": "launch",
             "module": "pytest",
             "args": [
+                "-s",
                 "${workspaceFolder}/src/test_zipper.py"
             ],
             "console": "integratedTerminal",

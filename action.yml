@@ -36,6 +36,11 @@ runs:
       with:
         python-version: '3.x'
 
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        pip install zipfile36
+
     - name: Create Artifact Zip
       shell: bash
       run: python3 ./src/zipper.py
