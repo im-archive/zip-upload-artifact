@@ -57,13 +57,19 @@ class Zipper:
                                 print(f"- Excluding file: {path}")
 
                 else:
+                    def show_cmd(message: str, cmd: str):
+                        print(message)
+                        print(cmd)
+                        results = subprocess.check_output(cmd, shell=True).decode()
+                        print(results)
+
                     print(f"- ERROR: Cannot find {path}!")
-                    print("- Show current directory contents:")
-                    print(subprocess.check_output("ls -l", shell=True).decode())
-                    print("Show Content Directories one directory up:")
-                    print(subprocess.check_output("cd .. && pwd && ls -l", shell=True).decode())
-                    print("Show Content Directories two directories up:")
-                    print(subprocess.check_output("cd ../.. && pwd && ls -l", shell=True).decode())
+                    show_cmd("Show current dir files", "pwd && ls -l")
+                    show_cmd("Show current dir files, up 1", "cd .. && pwd && ls -l")
+                    show_cmd("Show current dir files, up 2", "cd ../.. && pwd && ls -l")
+                    show_cmd("Show current dir files, up 3", "cd ../../.. && pwd && ls -l")
+                    show_cmd("Show current dir files, up 4", "cd ../../../.. && pwd && ls -l")
+
                 
         print(f"- Total files added to '{zip_name}': {file_count}")
         print("")
