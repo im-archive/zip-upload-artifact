@@ -34,6 +34,7 @@ class Zipper:
         with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:            
             print(f"Creating '{zip_name}'...")
             for path in self.included_paths:
+                
                 print(f"Check path: {path}...")
                 if os.path.isfile(path):
                     if path not in self.excluded_paths:
@@ -58,6 +59,10 @@ class Zipper:
                     print(f"- ERROR: Cannot find {path}!")
                     print("- Show current directory contents:")
                     os.system("ls -l")
+                    print("Show Content Directories one directory up:")
+                    os.system("cd .. && pwd && ls -l")
+                    print("Show Content Directories two directories up:")
+                    os.system("cd ../.. && pwd && ls -l")
                 
         print(f"- Total files added to '{zip_name}': {file_count}")
         print("")
@@ -69,9 +74,9 @@ class Zipper:
         if isinstance(path, list):
            for item in path:
                if not item.startswith("!"):
-                   paths.append(item)
+                   paths.append(item.strip())
         else:
-           paths.append(path)
+           paths.append(path.strip())
        
         return paths
 
@@ -81,7 +86,7 @@ class Zipper:
         if isinstance(path, list):
             for item in path:
                 if item.startswith("!"):
-                    paths.append(item[1:])
+                    paths.append(item[1:].strip())
 
         return paths
 
