@@ -41,7 +41,7 @@ class Zipper:
                                 print(f"- Adding file: {path}")
                                 zip.write(file_path)
 
-        print("Done!")
+        print(f"Done creating {zip_name}!")
         print("")
         return zip_name
     
