@@ -28,18 +28,7 @@ jobs:
         echo "Test Sub 1" > temp/subfolder/test-sub1.txt
         echo "Test Sub 2" > temp/subfolder/test-sub2.txt
 
-    - name: Artifact with Root and Sub 2
-      if: always()
-      uses: ./
-      with:
-        name: with-root-sub-2-no-sub1
-        path: |
-          temp/test-root.txt
-          temp/subfolder/
-          !temp/subfolder/test-sub2.txt
-        retention-days: 1
-
-    - name: Artifact with Sub 1 and 2
+    - name: Artifact with Sub1 and Sub2
       if: always()
       uses: ./
       with:
@@ -53,4 +42,15 @@ jobs:
       with:
         name: with-root
         path: temp/test-root.txt
+        retention-days: 1
+
+    - name: Artifact with Root and Sub1 no Sub2
+      if: always()
+      uses: ./
+      with:
+        name: with-root-sub-2-no-sub1
+        path: |
+          temp/test-root.txt
+          temp/subfolder/
+          !temp/subfolder/test-sub2.txt
         retention-days: 1

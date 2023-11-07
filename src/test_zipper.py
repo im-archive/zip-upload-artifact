@@ -36,7 +36,13 @@ class TestZipper:
 
 
     def test_dir_with_files(self):
-        name = "Directory with Text Files"
+        name = "Test Directory with Text Files"
+        
+        print("")
+        print("#################################")
+        print(name)
+        print("#################################")
+
         path = self.DIR_TEST_FILES
 
         zipper = Zipper(name, path)
@@ -51,6 +57,12 @@ class TestZipper:
 
     def test_single_file_in_dir(self):
         name = "Test Single File in Directory"
+        
+        print("")
+        print("#################################")
+        print(name)
+        print("#################################")
+
         path = self.PATH_TEST_FILE_2
 
         zipper = Zipper(name, path)
@@ -64,7 +76,13 @@ class TestZipper:
 
 
     def test_single_file_at_root_dir(self):
-        name = "Single Text File at Root Directory"
+        name = "Test single Text File at Root Directory"
+
+        print("")
+        print("#################################")
+        print(name)
+        print("#################################")
+
         path = self.PATH_TEST_FILE_1
 
         zipper = Zipper(name, path)
@@ -79,6 +97,12 @@ class TestZipper:
 
     def test_multiple_files_and_exclusion(self):
         name = "Test with Root file and dir files"
+
+        print("")
+        print("#################################")
+        print(name)
+        print("#################################")
+
         path = [
             self.PATH_TEST_FILE_1,
             self.DIR_TEST_FILES,
@@ -101,13 +125,15 @@ class TestZipper:
 
 
     def _has_file(self, file_path: str) -> bool:
+        has_file = False
         for dir_path, _, files in os.walk(self.DIR_EXTRACTED):
             for file in files:
                 path_current_file = os.path.join(dir_path, file)
                 if file_path in path_current_file:
-                    return True
+                    has_file = True
                 
-        return False
+        print(f"Has {file_path} in Zip?: {has_file}")
+        return has_file
 
 
     def _extract_zip(self, zip_name: str):
