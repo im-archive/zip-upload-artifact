@@ -30,7 +30,7 @@ runs:
   steps:
     - name: Create Artifact Zip
       shell: bash
-      run: python ./src/zipper.py
+      run: python3 ./src/zipper.py
       env:
         NAME: ${{ inputs.name }}
         PATH: ${{ inputs.path }}
