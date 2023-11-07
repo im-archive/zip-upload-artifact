@@ -37,6 +37,7 @@ jobs:
           temp/test-root.txt
           temp/subfolder/
           !temp/subfolder/test-sub2.txt
+        retention-days: 1
 
     - name: Artifact with Sub 1 and 2
       if: always()
@@ -44,6 +45,7 @@ jobs:
       with:
         name: with-sub1-and-sub2
         path: temp/subfolder
+        retention-days: 1
 
     - name: Artifact with Root
       if: always()
@@ -51,3 +53,4 @@ jobs:
       with:
         name: with-root
         path: temp/test-root.txt
+        retention-days: 1
