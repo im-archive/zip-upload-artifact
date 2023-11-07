@@ -6,7 +6,7 @@ class Zipper:
     """
     A class used to create a zip file from a given name and path
     """
-    
+
     def __init__(self, name: str, path: str) -> None:
         print("Input Parameters")
         print(f"- Name = {name}")
@@ -31,11 +31,11 @@ class Zipper:
         zip_name = f"{self.name}.zip"
         print("")
         print(f"Creating '{zip_name}'...")
-        with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip:
+        with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip_writer:
             for path in self.included_paths:
                 if os.path.isfile(path) and path not in self.excluded_paths:
                     print(f"- Adding file: {path}")
-                    zip.write(path)
+                    zip_writer.write(path)
 
                 elif os.path.isdir(path):
                     for dir_path, _, filenames in os.walk(path):
@@ -43,7 +43,7 @@ class Zipper:
                             file_path = os.path.join(dir_path, filename)
                             if file_path not in self.excluded_paths:
                                 print(f"- Adding file: {path}")
-                                zip.write(file_path)
+                                zip_writer.write(file_path)
 
         print(f"Done creating '{zip_name}'!")
         print("")

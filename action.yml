@@ -36,22 +36,16 @@ runs:
       with:
         python-version: '3.x'
 
-    - name: Install Dependencies
-      shell: bash
-      run: |
-        pip install zipfile36
-
     - name: Create Artifact Zip
       shell: bash
       run: python3 ./src/zipper.py
       env:
         NAME: ${{ inputs.name }}
         PATH: ${{ inputs.path }}
-
     
-    - name: Show Contents at directory
+    - name: Print size of zip file
       shell: bash
-      run: ls -l
+      run: du -sh ${{ inputs.name }}.zip
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
