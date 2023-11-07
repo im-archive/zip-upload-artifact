@@ -26,7 +26,7 @@ class Zipper:
         """
         zip_name = f"{self.name}.zip"
         print("")
-        print(f"Creating {zip_name}...")
+        print(f"Creating '{zip_name}'...")
         with ZipFile(zip_name, "w", ZIP_DEFLATED) as zip:
             for path in self.included_paths:
                 if os.path.isfile(path) and path not in self.excluded_paths:
@@ -41,7 +41,7 @@ class Zipper:
                                 print(f"- Adding file: {path}")
                                 zip.write(file_path)
 
-        print(f"Done creating {zip_name}!")
+        print(f"Done creating '{zip_name}'!")
         print("")
         return zip_name
     
