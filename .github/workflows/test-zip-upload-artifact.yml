@@ -56,3 +56,14 @@ jobs:
         name: Single Test File at Root Directory
         path: file_0.txt
         retention-days: '3'
+
+    - name: Test with Root file and dir files
+      if: always()
+      uses: ./
+      with:
+        name: Root file and dir files
+        path: |
+          file_0.txt
+          test_results/
+        retention-days: '3'
+
