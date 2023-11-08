@@ -13,19 +13,18 @@ jobs:
     - name: Setup Test Files for Zip
       shell: bash
       run: |
-        mkdir "temp"
-        mkdir "temp/subfolder"
+        mkdir "subfolder"
 
-        echo "################ Test Root ################" > temp/test-root.txt
-        echo "################ Test Sub1 ################" > temp/subfolder/test-sub1.txt
-        echo "################ Test Sub2 ################" > temp/subfolder/test-sub2.txt
+        echo "################ Test Root ################" > test-root.txt
+        echo "################ Test Sub1 ################" > subfolder/test-sub1.txt
+        echo "################ Test Sub2 ################" > subfolder/test-sub2.txt
 
     - name: 1. Artifact with Sub1 and Sub2
       if: always()
       uses: ./
       with:
         name: with-sub1-and-sub2
-        path: temp/subfolder
+        path: subfolder
         retention-days: 1
 
     - name: 2. Artifact with Root
@@ -33,7 +32,7 @@ jobs:
       uses: ./
       with:
         name: with-root
-        path: temp/test-root.txt
+        path: test-root.txt
         retention-days: 1
 
     - name: 3. Artifact with Root and Sub1 no Sub2
@@ -42,9 +41,9 @@ jobs:
       with:
         name: with-root-sub-2-no-sub1
         path: |
-          temp/test-root.txt
-          temp/subfolder/
-          !temp/subfolder/test-sub2.txt
+          test-root.txt
+          subfolder/
+          !subfolder/test-sub2.txt
         retention-days: 1
 
     - name: Test for Existence of zip files
@@ -68,7 +67,7 @@ jobs:
 
         def fail_workflow(out_dir: str, name_expected: dict) -> bool:
           should_fail = False
-          for name, expected in name_expected.items()
+          for name, expected in name_expected.items():
             file_exists = check_file_exists(name, out_dir):
             print(f"Expected {name} to exist: {expected}. Does file exist? {file_exists}")
             if file_exists != expected:
@@ -76,9 +75,9 @@ jobs:
 
           return should_fail
         
-        file_root = "temp/test-root.txt"
-        file_sub1 = "temp/subfolder/test-sub1.txt"
-        file_sub2 = "temp/subfolder/test-sub2.txt"
+        file_root = "test-root.txt"
+        file_sub1 = "subfolder/test-sub1.txt"
+        file_sub2 = "subfolder/test-sub2.txt"
 
         test_1 = "with-sub1-and-sub2"
         unzip_file(test_1)        
