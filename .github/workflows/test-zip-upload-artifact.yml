@@ -78,7 +78,6 @@ jobs:
 
         def check_file_exists(name: str, out_path: str) -> bool:
           has_file = os.path.exists(os.path.join(out_path, name))
-          print(f"Does {name} exist in {out_path}? {has_file}")
           return has_file
 
         def fail_workflow(out_dir: str, name_expected: dict) -> bool:
