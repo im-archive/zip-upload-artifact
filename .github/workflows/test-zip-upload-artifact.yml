@@ -66,6 +66,7 @@ jobs:
           return has_file
 
         def fail_workflow(out_dir: str, name_expected: dict) -> bool:
+          print("-----------------------------------------------------------------------")
           should_fail = False
           for name, expected in name_expected.items():
             file_exists = check_file_exists(name, out_dir)
@@ -73,6 +74,7 @@ jobs:
             if file_exists != expected:
               should_fail = True
 
+          print("-----------------------------------------------------------------------")
           return should_fail
         
         file_root = "test-root.txt"
