@@ -34,6 +34,10 @@ runs:
         import os
         import zipfile
 
+        # cause failure for tests
+        blabla
+        print(blba)
+
         def get_included_paths(path: str) -> list:
           paths = []
           if isinstance(path, list):
