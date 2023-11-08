@@ -55,6 +55,7 @@ jobs:
         import zipfile
 
         def unzip_file(name: str, out_path: str):
+          print("")
           print(f"Unzipping {name}")
           os.makedirs(out_path, exist_ok=True)
           with zipfile.ZipFile(name, 'r') as zip_ref:
