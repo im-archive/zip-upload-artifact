@@ -93,7 +93,7 @@ jobs:
         
         test_2 = "with-root.zip"
         out_2 = "test2"
-        unzip_file(test_2)
+        unzip_file(test_2, out_2)
         fail_2 = fail_workflow(
           out_2, 
           {
@@ -105,7 +105,7 @@ jobs:
         
         test_3 = "with-root-sub-2-no-sub1.zip"
         out_3 = "test3"
-        unzip_file(test_3)
+        unzip_file(test_3, out_3)
         fail_3 = fail_workflow(
           out_3, 
           {
