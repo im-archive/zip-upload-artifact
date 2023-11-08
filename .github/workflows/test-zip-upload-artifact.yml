@@ -54,17 +54,13 @@ jobs:
         import sys
         import zipfile
 
-        def unzip_file(name: str):
+        def unzip_file(name: str, out_path: str):
           print(f"Unzipping {name}")
-          out_path = f"dir_{name}"
           os.makedirs(out_path, exist_ok=True)
           with zipfile.ZipFile(name, 'r') as zip_ref:
             zip_ref.extractall(out_path)
 
         def check_file_exists(name: str, out_path: str) -> bool:
-          if not out_path.startswith("dir_"):
-            out_path = f"dir_{out_path}"
-
           has_file = os.path.exists(os.path.join(out_path, name))
           print(f"Does {name} exist in {out_path}? {has_file}")
           return has_file
@@ -83,10 +79,11 @@ jobs:
         file_sub1 = "subfolder/test-sub1.txt"
         file_sub2 = "subfolder/test-sub2.txt"
 
-        test_1 = "with-sub1-and-sub2"
-        unzip_file(test_1)        
+        test_1 = "with-sub1-and-sub2.zip"
+        out_1 = "test1"
+        unzip_file(test_1, out_1)        
         fail_1 = fail_workflow(
-          test_1, 
+          out_1, 
           {
             file_root: False, 
             file_sub1: True, 
@@ -94,10 +91,11 @@ jobs:
           }
         )
         
-        test_2 = "with-root"
+        test_2 = "with-root.zip"
+        out_2 = "test2"
         unzip_file(test_2)
         fail_2 = fail_workflow(
-          test_2, 
+          out_2, 
           {
             file_root: True, 
             file_sub1: False, 
@@ -105,10 +103,11 @@ jobs:
           }
         )
         
-        test_3 = "with-root-sub-2-no-sub1"
+        test_3 = "with-root-sub-2-no-sub1.zip"
+        out_3 = "test3"
         unzip_file(test_3)
         fail_3 = fail_workflow(
-          test_3, 
+          out_3, 
           {
             file_root: True, 
             file_sub1: True, 
