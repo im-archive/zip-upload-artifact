@@ -62,3 +62,12 @@ jobs:
       # The npm script to run to build the action.  This is typically 'npm run build' if the
       # action needs to be compiled.  For composite-run-steps actions this is typically empty.
       build-command: '' # TODO:  Update if this action has a build step.
+
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      
+      - name: Run Tests
+        uses: ./.github/workflows/test-zip-upload-artifact.yml
