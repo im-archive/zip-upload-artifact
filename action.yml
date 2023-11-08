@@ -28,24 +28,68 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
-
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-
     - name: Create Artifact Zip
-      shell: bash
-      run: python3 ./src/zipper.py
+      shell: python
+      run: |
+        import os
+        import zipfile
+
+        def get_included_paths(path: str) -> list:
+          paths = []
+          if isinstance(path, list):
+            for item in path:
+              if not item.startswith("!"):
+                paths.append(item.strip())
+          else:
+            paths.append(path.strip())
+          
+          return paths
+
+        def get_excluded_paths(path: str) -> list:
+          paths = []
+          if isinstance(path, list):
+            for item in path:
+              if item.startswith("!"):
+                paths.append(item[1:].strip())                    
+          
+          return paths        
+
+        file_name = os.environ['FILE_NAME']
+        file_path = os.environ['FILE_PATH'].splitlines()
+        included_paths = get_included_paths(file_path)
+        excluded_paths = get_excluded_paths(file_path)
+
+        zip_name = f"{file_name}.zip"
+        file_count = 0
+        with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
+          print(f"Creating {zip_name}...")
+          for path in included_paths:
+            if os.path.isfile(path):
+              if path not in excluded_paths:
+                print(f"- Adding {path}...")
+                zip_writer.write(path)
+                file_count += 1
+              else:
+                print(f"- Excluding {path}...")
+            
+            elif os.path.isdir(path):
+              for dir_path, _, filenames in os.walk(path):
+                for filename in filenames:
+                  file_path = os.path.join(dir_path, filename)
+                  if file_path not in excluded_paths:
+                    print(f"- Adding {file_path}...")
+                    zip_writer.write(file_path)
+                    file_count += 1
+                  else:
+                    print(f"- Excluding {file_path}...")
+            
+            else:
+              print(f"- WARNING: {path} is not a valid file or directory.")
+        
+        print(f"Added {file_count} files to {zip_name}.")        
       env:
         FILE_NAME: ${{ inputs.name }}
         FILE_PATH: ${{ inputs.path }}
-    
-    - name: Print size of zip file
-      shell: bash
-      run: du -sh ${{ inputs.name }}.zip
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3

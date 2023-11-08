@@ -10,41 +10,33 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
-    - name: Run Python Tests
-      if: always()
-      shell: bash
-      run: |
-        pip install pytest
-
-        pytest -s ./src/test_zipper.py
-
-    - name: Setup Files
+    - name: Setup Test Files for Zip
       shell: bash
       run: |
         mkdir "temp"
         mkdir "temp/subfolder"
 
-        echo "Test Root" > temp/test-root.txt
-        echo "Test Sub 1" > temp/subfolder/test-sub1.txt
-        echo "Test Sub 2" > temp/subfolder/test-sub2.txt
+        echo "################ Test Root ################" > temp/test-root.txt
+        echo "################ Test Sub1 ################" > temp/subfolder/test-sub1.txt
+        echo "################ Test Sub2 ################" > temp/subfolder/test-sub2.txt
 
-    # - name: Artifact with Sub1 and Sub2
-    #   if: always()
-    #   uses: ./
-    #   with:
-    #     name: with-sub1-and-sub2
-    #     path: temp/subfolder
-    #     retention-days: 1
+    - name: 1. Artifact with Sub1 and Sub2
+      if: always()
+      uses: ./
+      with:
+        name: with-sub1-and-sub2
+        path: temp/subfolder
+        retention-days: 1
 
-    # - name: Artifact with Root
-    #   if: always()
-    #   uses: ./
-    #   with:
-    #     name: with-root
-    #     path: temp/test-root.txt
-    #     retention-days: 1
+    - name: 2. Artifact with Root
+      if: always()
+      uses: ./
+      with:
+        name: with-root
+        path: temp/test-root.txt
+        retention-days: 1
 
-    - name: Artifact with Root and Sub1 no Sub2
+    - name: 3. Artifact with Root and Sub1 no Sub2
       if: always()
       uses: ./
       with:
@@ -54,3 +46,78 @@ jobs:
           temp/subfolder/
           !temp/subfolder/test-sub2.txt
         retention-days: 1
+
+    - name: Test for Existence of zip files
+      if: always()
+      shell: python
+      run: |
+        import os
+        import sys
+        import zipfile
+
+        def unzip_file(name: str):
+          print(f"Unzipping {name}")
+          os.makedirs(name, exist_ok=True)
+          with zipfile.ZipFile(name, 'r') as zip_ref:
+            zip_ref.extractall(name)
+
+        def check_file_exists(name: str, out_path: str) -> bool:          
+          has_file = os.path.exists(os.path.join(out_path, name))
+          print(f"Does {name} exist in {out_path}? {has_file}")
+          return has_file
+
+        def fail_workflow(out_dir: str, name_expected: dict) -> bool:
+          should_fail = False
+          for name, expected in name_expected.items()
+            file_exists = check_file_exists(name, out_dir):
+            print(f"Expected {name} to exist: {expected}. Does file exist? {file_exists}")
+            if file_exists != expected:
+              should_fail = True
+
+          return should_fail
+        
+        file_root = "temp/test-root.txt"
+        file_sub1 = "temp/subfolder/test-sub1.txt"
+        file_sub2 = "temp/subfolder/test-sub2.txt"
+
+        test_1 = "with-sub1-and-sub2"
+        unzip_file(test_1)        
+        fail_1 = fail_workflow(
+          test_1, 
+          {
+            file_root: False, 
+            file_sub1: True, 
+            file_sub2: True
+          }
+        )
+        
+        test_2 = "with-root"
+        unzip_file(test_2)
+        fail_2 = fail_workflow(
+          test_2, 
+          {
+            file_root: True, 
+            file_sub1: False, 
+            file_sub2: False
+          }
+        )
+        
+        test_3 = "with-root-sub-2-no-sub1"
+        unzip_file(test_3)
+        fail_3 = fail_workflow(
+          test_3, 
+          {
+            file_root: True, 
+            file_sub1: True, 
+            file_sub2: False
+          }
+        )
+
+        if fail_1 or fail_2 or fail_3:
+          print("ERROR: One or more zip file checks failed")
+          sys.exit(1)
+
+        
+
+        
+
