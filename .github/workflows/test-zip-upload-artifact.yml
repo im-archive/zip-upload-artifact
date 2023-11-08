@@ -13,11 +13,26 @@ jobs:
     - name: Setup Test Files for Zip
       shell: bash
       run: |
+        echo "################################"
+        echo "Setup Test files for Zip"
+        echo "################################"
+        echo ""
+        echo "Create subfolder"
         mkdir "subfolder"
 
+        echo "Create test-root.txt"
         echo "################ Test Root ################" > test-root.txt
+        echo ""
+
+        echo "Create subfolder/test-sub1.txt"
         echo "################ Test Sub1 ################" > subfolder/test-sub1.txt
+        echo ""
+
+        echo "Create subfolder/test-sub2.txt"
         echo "################ Test Sub2 ################" > subfolder/test-sub2.txt
+        echo ""
+
+        echo "DONE!"
 
     - name: 1. Artifact with Sub1 and Sub2
       if: always()
@@ -121,8 +136,3 @@ jobs:
         if fail_1 or fail_2 or fail_3:
           print("ERROR: One or more zip file checks failed")
           sys.exit(1)
-
-        
-
-        
-
