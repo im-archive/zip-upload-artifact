@@ -34,6 +34,10 @@ runs:
         import os
         import zipfile
 
+        # NOTE: 
+        # This python code has been written inline, instead of a standalone file, so it 
+        # can be run without running into file system issues finding files and paths.
+
         def get_included_paths(path: str) -> list:
           paths = []
           if isinstance(path, list):
