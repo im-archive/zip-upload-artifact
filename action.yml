@@ -58,9 +58,13 @@ runs:
         print("####################################################")
         print("Creating Artifact Zip")
         print("####################################################")
-        
-        file_name = os.environ['FILE_NAME']
+                
+        file_name = os.environ['FILE_NAME']        
+        print(f"Input Name: {file_name}")
+                
         file_path = os.environ['FILE_PATH'].splitlines()
+        print(f"Input Path: {', '.join(file_path)}")
+        
         included_paths = get_included_paths(file_path)
         excluded_paths = get_excluded_paths(file_path)
 
