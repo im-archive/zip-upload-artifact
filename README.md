@@ -34,13 +34,26 @@ jobs:
   job1:
     runs-on: [self-hosted, im-linux]
     steps:
-      - uses: actions/checkout@v3
-
+      ...
       - name: 'Zip and Upload Artifact'
-        uses: im-open/zip-upload-artifact@v1.1.5
+        uses: im-open/zip-upload-artifact@v1.2.0
         with:
           name: ${{ env.CODE_COVERAGE_REPORT_NAME }}
           path: ${{ env.CODE_COVERAGE_DIR }}
+      ...
+  
+  job2:
+    runs-on: [self-hosted, im-linux]
+    steps:
+      ...
+      - name: Zip and Upload Files and Ignore one
+        uses: im-open/zip-upload-artifact@v1.2.0
+        with:
+          name: ${{ env.FILE_NAME }}
+          path: |
+            ${{ env.CODE_COVERAGE_DIR }}
+            !${{ env.CODE_COVERAGE_DIR }}/ignore-me.txt
+      ...
 ```
 
 ## Contributing
