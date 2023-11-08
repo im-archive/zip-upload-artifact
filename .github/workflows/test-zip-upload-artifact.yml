@@ -68,7 +68,7 @@ jobs:
         def fail_workflow(out_dir: str, name_expected: dict) -> bool:
           should_fail = False
           for name, expected in name_expected.items():
-            file_exists = check_file_exists(name, out_dir):
+            file_exists = check_file_exists(name, out_dir)
             print(f"Expected {name} to exist: {expected}. Does file exist? {file_exists}")
             if file_exists != expected:
               should_fail = True
