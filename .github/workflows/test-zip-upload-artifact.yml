@@ -56,7 +56,7 @@ jobs:
 
         def unzip_file(name: str):
           print(f"Unzipping {name}")
-          out_path = f"dir_{name}""
+          out_path = f"dir_{name}"
           os.makedirs(out_path, exist_ok=True)
           with zipfile.ZipFile(name, 'r') as zip_ref:
             zip_ref.extractall(out_path)
@@ -64,7 +64,7 @@ jobs:
         def check_file_exists(name: str, out_path: str) -> bool:
           if not out_path.startswith("dir_"):
             out_path = f"dir_{out_path}"
-                  
+
           has_file = os.path.exists(os.path.join(out_path, name))
           print(f"Does {name} exist in {out_path}? {has_file}")
           return has_file
