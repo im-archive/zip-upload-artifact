@@ -73,7 +73,7 @@ runs:
         zip_name = f"{file_name}.zip"
         file_count = 0
         with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
-          print(f"Creating {zip_name}...")
+          print(f"Creating {zip_name}:")
           for path in included_paths:
             if os.path.isfile(path):
               if path not in excluded_paths:
@@ -98,7 +98,7 @@ runs:
               print(f"- WARNING: {path} is not a valid file or directory.")
         
         print("")
-        print(f"DONE, Added {file_count} files to {zip_name}.")     
+        print(f"DONE: Added {file_count} files to {zip_name}.")     
         print("")
       env:
         FILE_NAME: ${{ inputs.name }}
