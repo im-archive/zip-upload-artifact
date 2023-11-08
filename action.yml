@@ -59,7 +59,7 @@ runs:
         print("Creating Artifact Zip")
         print("####################################################")
                 
-        file_name = os.environ['FILE_NAME']        
+        file_name = os.environ['FILE_NAME']
         print(f"Input Name: {file_name}")
                 
         file_path = os.environ['FILE_PATH'].splitlines()
