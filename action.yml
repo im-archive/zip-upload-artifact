@@ -58,12 +58,14 @@ runs:
         print("####################################################")
         print("Creating Artifact Zip")
         print("####################################################")
-                
+
+        print("Inputs")    
         file_name = os.environ['FILE_NAME']
-        print(f"Input Name: {file_name}")
+        print(f"- Name: {file_name}")
                 
         file_path = os.environ['FILE_PATH'].splitlines()
-        print(f"Input Path: {', '.join(file_path)}")
+        print(f"- Path: {', '.join(file_path)}")
+        print("")
         
         included_paths = get_included_paths(file_path)
         excluded_paths = get_excluded_paths(file_path)
@@ -95,10 +97,8 @@ runs:
             else:
               print(f"- WARNING: {path} is not a valid file or directory.")
         
-        print(f"Added {file_count} files to {zip_name}.")
-        
         print("")
-        print("DONE!")     
+        print(f"DONE, Added {file_count} files to {zip_name}.")     
         print("")
       env:
         FILE_NAME: ${{ inputs.name }}
