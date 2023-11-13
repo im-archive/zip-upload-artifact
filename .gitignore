@@ -1,3 +1,5 @@
 action.py
 action_tester.py
 .vscode
+*.zip
+temp

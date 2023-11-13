@@ -54,6 +54,9 @@ runs:
                 path_value = item.strip()
 
               if path_value:
+                if os.path.isdir(path_value) and not path_value.endswith("**"):
+                  path_value = os.path.join(path_value, "**")
+                
                 discovered_paths = glob.glob(path_value, recursive=True)
                 print(f"Discovered {len(discovered_paths)} paths: {', '.join(discovered_paths)}")
                 paths.extend(discovered_paths)
@@ -81,7 +84,7 @@ runs:
         with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
           print(f"Creating {zip_name}:")
           for path in included_paths:
-            if path not in excluded_paths:
+            if path not in excluded_paths:                
               zip_writer.write(path)
               file_count += 1
 
