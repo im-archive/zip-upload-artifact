@@ -40,8 +40,10 @@ runs:
         # can be run without running into file system issues finding files and paths.
 
         def get_paths(path: str, list_type: str) -> list:
+          print(f"Getting {list_type} paths...")
           paths = []
           if isinstance(path, list):
+            print(f"Split up values in path: {path}")
             for item in path:
               if list_type == "excluded":
                 if item.startswith("!"):
@@ -51,6 +53,7 @@ runs:
           else:
             print(f"ERROR: path is not a list. {path}")
           
+          print("DONE!")
           return paths
 
         print()
