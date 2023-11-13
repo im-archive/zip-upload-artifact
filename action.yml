@@ -79,18 +79,16 @@ runs:
         excluded_paths = get_paths(file_path, list_type="excluded")
 
         zip_name = f"{file_name}.zip"
-        file_count = 0
         with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
           print("")
           print(f"Creating {zip_name}:")
           for path in included_paths:
-            if path not in excluded_paths:                
+            if path not in excluded_paths: 
                 print(f"- Adding {path}")               
                 zip_writer.write(path)
-                file_count += 1
 
         print("")
-        print(f"DONE: Added {file_count} files to {zip_name}.")     
+        print(f"DONE: Created {zip_name}.")     
         print("")
       env:
         FILE_NAME: ${{ inputs.name }}
