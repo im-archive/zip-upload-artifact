@@ -28,10 +28,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install Python Dependencies
-      shell: bash
-      run: pip install glob2 
-
     - name: Create Artifact Zip File
       shell: python
       run: |
@@ -51,10 +47,10 @@ runs:
               print(f"Split up values in path: {path}")
               for item in path:
                 if list_type == "excluded":
-                  if item.startswith("!"):
-                    path.extend(glob.glob(item[1:].strip(), recursive=True))
+                  if item.startswith("!"):                    
+                    paths.extend(glob.glob(item[1:].strip(), recursive=True))
                   else:
-                    path.extend(glob.glob(item.strip(), recursive=True))
+                    paths.extend(glob.glob(item.strip(), recursive=True))
             else:
               print(f"ERROR: path is not a list. {path}")
             
