@@ -45,7 +45,8 @@ runs:
           print(f"Discover all {list_type} paths from {', '.join(path)}")
           if isinstance(path, list):
             for item in path:
-              path_value = None                
+              path_value = None
+              # excluded paths start with !
               if list_type == "excluded":
                 if item.startswith("!"):                    
                   path_value = item[1:].strip()
@@ -53,6 +54,7 @@ runs:
                 path_value = item.strip()
 
               if path_value:
+                # if the path is a directory, then add ** to the end to include all files subdirectories
                 if os.path.isdir(path_value) and not path_value.endswith("**"):
                   path_value = os.path.join(path_value, "**")
                 
