@@ -40,20 +40,25 @@ runs:
         # can be run without running into file system issues finding files and paths.
 
         def get_paths(path: str, list_type: str) -> list:
-          print(f"Getting {list_type} paths...")
           paths = []
-          if isinstance(path, list):
-            print(f"Split up values in path: {path}")
-            for item in path:
-              if list_type == "excluded":
-                if item.startswith("!"):
-                  path.extend(glob.glob(item[1:].strip(), recursive=True))
-                else:
-                  path.extend(glob.glob(item.strip(), recursive=True))
-          else:
-            print(f"ERROR: path is not a list. {path}")
-          
-          print("DONE!")
+          try:
+            print(f"Getting {list_type} paths...")
+            if isinstance(path, list):
+              print(f"Split up values in path: {path}")
+              for item in path:
+                if list_type == "excluded":
+                  if item.startswith("!"):
+                    path.extend(glob.glob(item[1:].strip(), recursive=True))
+                  else:
+                    path.extend(glob.glob(item.strip(), recursive=True))
+            else:
+              print(f"ERROR: path is not a list. {path}")
+            
+            print("DONE!")
+          except Exception as ex:
+            print("ERROR getting paths:")
+            print(ex)
+            
           return paths
 
         print()
