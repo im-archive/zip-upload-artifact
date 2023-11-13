@@ -44,7 +44,7 @@ runs:
           if isinstance(path, list):
             print(f"Split up values in path: {path}")
             for item in path:
-              print(f"Discover all paths from {item}")
+              print(f"Discover all {list_type} paths from {item}")
 
               path_value = None                
               if list_type == "excluded":
@@ -58,7 +58,7 @@ runs:
                   path_value = os.path.join(path_value, "**")
                 
                 discovered_paths = glob.glob(path_value, recursive=True)
-                print(f"Discovered {len(discovered_paths)} paths: {', '.join(discovered_paths)}")
+                print(f"Discovered {len(discovered_paths)} {list_type} paths: {', '.join(discovered_paths)}")
                 paths.extend(discovered_paths)
 
           return paths
@@ -85,8 +85,8 @@ runs:
           print(f"Creating {zip_name}:")
           for path in included_paths:
             if path not in excluded_paths:                
-              zip_writer.write(path)
-              file_count += 1
+                zip_writer.write(path)
+                file_count += 1
 
         print("")
         print(f"DONE: Added {file_count} files to {zip_name}.")     
