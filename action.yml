@@ -42,7 +42,6 @@ runs:
         def get_paths(path: str, list_type: str) -> list:
           paths = []
           if isinstance(path, list):
-            print(f"Split up values in path: {path}")
             for item in path:
               print(f"Discover all {list_type} paths from {item}")
 
