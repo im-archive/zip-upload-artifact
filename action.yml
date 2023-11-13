@@ -54,7 +54,7 @@ runs:
                   path_value = item.strip()
 
                 if path_value:
-                  paths.extend(path_value, recursive=True))                
+                  paths.extend(path_value, recursive=True)             
             else:
               print(f"ERROR: path is not a list. {path}")
             
