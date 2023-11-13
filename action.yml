@@ -28,6 +28,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Install Python Dependencies
+      run: pip install glob2 
+
     - name: Create Artifact Zip File
       shell: python
       run: |
@@ -58,7 +61,7 @@ runs:
           except Exception as ex:
             print("ERROR getting paths:")
             print(ex)
-            
+
           return paths
 
         print()
