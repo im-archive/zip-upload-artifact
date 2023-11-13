@@ -41,10 +41,10 @@ runs:
 
         def get_paths(path: str, list_type: str) -> list:
           paths = []
+          print("")
+          print(f"Discover all {list_type} paths from {', '.join(path)}")
           if isinstance(path, list):
             for item in path:
-              print(f"Discover all {list_type} paths from {item}")
-
               path_value = None                
               if list_type == "excluded":
                 if item.startswith("!"):                    
@@ -57,9 +57,9 @@ runs:
                   path_value = os.path.join(path_value, "**")
                 
                 discovered_paths = glob.glob(path_value, recursive=True)
-                print(f"Discovered {len(discovered_paths)} {list_type} paths: {', '.join(discovered_paths)}")
                 paths.extend(discovered_paths)
 
+          print(f"Discovered {len(paths)} {list_type} paths: {', '.join(paths)}")
           return paths
 
         print()
