@@ -32,31 +32,23 @@ runs:
       shell: python
       run: |
         import os
+        import glob
         import zipfile
 
         # NOTE: 
         # This python code has been written inline, instead of a standalone file, so it 
         # can be run without running into file system issues finding files and paths.
 
-        def get_included_paths(path: str) -> list:
-          paths = []
-          if isinstance(path, list):
-            for item in path:
-              if not item.startswith("!"):
-                paths.append(item.strip())
-          else:
-            paths.append(path.strip())
-          
-          return paths
-
-        def get_excluded_paths(path: str) -> list:
-          paths = []
-          if isinstance(path, list):
-            for item in path:
-              if item.startswith("!"):
-                paths.append(item[1:].strip())                    
-          
-          return paths        
+        def get_paths(path: str, list_type: str) -> list:
+            paths = []
+            if isinstance(path, list):
+                for item in path:
+                    if list_type == "excluded":
+                        if item.startswith("!"):
+                            path.extend(glob.glob(item[1:].strip(), recursive=True))
+                    else:
+                        path.extend(glob.glob(item.strip(), recursive=True))                        
+            return paths
 
         print()
         print("####################################################")
@@ -70,37 +62,19 @@ runs:
         file_path = os.environ['FILE_PATH'].splitlines()
         print(f"- Path: {', '.join(file_path)}")
         print("")
-        
-        included_paths = get_included_paths(file_path)
-        excluded_paths = get_excluded_paths(file_path)
+
+        included_paths = get_paths(file_path, list_type="included")
+        excluded_paths = get_paths(file_path, list_type="excluded")
 
         zip_name = f"{file_name}.zip"
         file_count = 0
         with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
-          print(f"Creating {zip_name}:")
-          for path in included_paths:
-            if os.path.isfile(path):
-              if path not in excluded_paths:
-                print(f"- Adding {path}...")
-                zip_writer.write(path)
-                file_count += 1
-              else:
-                print(f"- Excluding {path}...")
-            
-            elif os.path.isdir(path):
-              for dir_path, _, filenames in os.walk(path):
-                for filename in filenames:
-                  file_path = os.path.join(dir_path, filename)
-                  if file_path not in excluded_paths:
-                    print(f"- Adding {file_path}...")
-                    zip_writer.write(file_path)
+            print(f"Creating {zip_name}:")
+            for path in included_paths:
+                if path not in excluded_paths:
+                    zip_writer.write(path)
                     file_count += 1
-                  else:
-                    print(f"- Excluding {file_path}...")
-            
-            else:
-              print(f"- WARNING: {path} is not a valid file or directory.")
-        
+
         print("")
         print(f"DONE: Added {file_count} files to {zip_name}.")     
         print("")
