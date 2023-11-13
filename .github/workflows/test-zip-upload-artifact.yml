@@ -88,7 +88,7 @@ jobs:
           should_fail = False
           for name, expected in name_expected.items():
             file_exists = check_file_exists(name, out_dir)
-            print(f"Expected {name} to exist: {expected}. Does file exist? {file_exists}")
+            print(f"Expected {expected}, Received {file_exists}: Test Passed? {expected == file_exists}")
             if file_exists != expected:
               should_fail = True
 
