@@ -41,27 +41,23 @@ runs:
 
         def get_paths(path: str, list_type: str) -> list:
           paths = []
-          try:
-            print(f"Getting {list_type} paths...")
-            if isinstance(path, list):
-              print(f"Split up values in path: {path}")
-              for item in path:
-                path_value = None                
-                if list_type == "excluded":
-                  if item.startswith("!"):                    
-                    path_value = item[1:].strip()
-                else:
-                  path_value = item.strip()
+          print(f"Getting {list_type} paths...")
+          if isinstance(path, list):
+            print(f"Split up values in path: {path}")
+            for item in path:
+              print(f"Get Paths from {item}")
+              
+              path_value = None                
+              if list_type == "excluded":
+                if item.startswith("!"):                    
+                  path_value = item[1:].strip()
+              else:
+                path_value = item.strip()
 
-                if path_value:
-                  paths.extend(path_value, recursive=True)             
-            else:
-              print(f"ERROR: path is not a list. {path}")
-            
-            print("DONE!")
-          except Exception as ex:
-            print("ERROR getting paths:")
-            print(ex)
+              if path_value:
+                discovered_paths = glob.glob(path_value, recursive=True)
+                print(f"Discovered {len(discovered_paths)} {list_type} paths: {discovered_paths}")
+                paths.extend(discovered_paths)
 
           return paths
 
