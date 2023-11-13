@@ -81,6 +81,7 @@ runs:
         zip_name = f"{file_name}.zip"
         file_count = 0
         with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
+          print("")
           print(f"Creating {zip_name}:")
           for path in included_paths:
             if path not in excluded_paths:                
