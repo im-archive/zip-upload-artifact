@@ -40,15 +40,18 @@ runs:
         # can be run without running into file system issues finding files and paths.
 
         def get_paths(path: str, list_type: str) -> list:
-            paths = []
-            if isinstance(path, list):
-                for item in path:
-                    if list_type == "excluded":
-                        if item.startswith("!"):
-                            path.extend(glob.glob(item[1:].strip(), recursive=True))
-                    else:
-                        path.extend(glob.glob(item.strip(), recursive=True))                        
-            return paths
+          paths = []
+          if isinstance(path, list):
+            for item in path:
+              if list_type == "excluded":
+                if item.startswith("!"):
+                  path.extend(glob.glob(item[1:].strip(), recursive=True))
+                else:
+                  path.extend(glob.glob(item.strip(), recursive=True))
+          else:
+            print(f"ERROR: path is not a list. {path}")
+          
+          return paths
 
         print()
         print("####################################################")
@@ -69,11 +72,11 @@ runs:
         zip_name = f"{file_name}.zip"
         file_count = 0
         with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zip_writer:
-            print(f"Creating {zip_name}:")
-            for path in included_paths:
-                if path not in excluded_paths:
-                    zip_writer.write(path)
-                    file_count += 1
+          print(f"Creating {zip_name}:")
+          for path in included_paths:
+            if path not in excluded_paths:
+              zip_writer.write(path)
+              file_count += 1
 
         print("")
         print(f"DONE: Added {file_count} files to {zip_name}.")     
