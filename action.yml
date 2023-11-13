@@ -46,11 +46,15 @@ runs:
             if isinstance(path, list):
               print(f"Split up values in path: {path}")
               for item in path:
+                path_value = None                
                 if list_type == "excluded":
                   if item.startswith("!"):                    
-                    paths.extend(glob.glob(item[1:].strip(), recursive=True))
-                  else:
-                    paths.extend(glob.glob(item.strip(), recursive=True))
+                    path_value = item[1:].strip()
+                else:
+                  path_value = item.strip()
+
+                if path_value:
+                  paths.extend(path_value, recursive=True))                
             else:
               print(f"ERROR: path is not a list. {path}")
             
