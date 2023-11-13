@@ -29,6 +29,7 @@ runs:
   using: 'composite'
   steps:
     - name: Install Python Dependencies
+      shell: bash
       run: pip install glob2 
 
     - name: Create Artifact Zip File
