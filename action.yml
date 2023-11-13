@@ -84,6 +84,7 @@ runs:
           print(f"Creating {zip_name}:")
           for path in included_paths:
             if path not in excluded_paths:                
+                print(f"- Adding {path}")               
                 zip_writer.write(path)
                 file_count += 1
 
