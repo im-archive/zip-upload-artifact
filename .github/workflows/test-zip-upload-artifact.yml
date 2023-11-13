@@ -57,7 +57,7 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-root-sub-2-no-sub1
+        name: with-root-sub2-no-sub1
         path: |
           test-root.txt
           subfolder/
@@ -123,7 +123,7 @@ jobs:
           }
         )
         
-        test_3 = "with-root-sub-2-no-sub1.zip"
+        test_3 = "with-root-sub2-no-sub1.zip"
         out_3 = "test3"
         unzip_file(test_3, out_3)
         fail_3 = fail_workflow(
