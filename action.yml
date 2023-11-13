@@ -73,7 +73,6 @@ runs:
                 
         file_path = os.environ['FILE_PATH'].splitlines()
         print(f"- Path: {', '.join(file_path)}")
-        print("")
 
         included_paths = get_paths(file_path, list_type="included")
         excluded_paths = get_paths(file_path, list_type="excluded")
