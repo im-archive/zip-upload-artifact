@@ -1,6 +1,5 @@
-# composite-run-steps-action-template
-
-This template can be used to quickly start a new custom composite-run-steps action repository.  Click the `Use this template` button at the top to get started.
+# Zip Upload Artifact
+The zip upload artifact action zips a file, or directory and uploads it as an artifact. This reduces the size of an artifact to help save on GitHub Artifact space usages. This action has the same inputs as upload-artifact so it can be changed from that to this by changing the `uses` line in the workflow.
 
 ## Index
 
@@ -35,13 +34,26 @@ jobs:
   job1:
     runs-on: [self-hosted, im-linux]
     steps:
-      - uses: actions/checkout@v3
-
+      ...
       - name: 'Zip and Upload Artifact'
-        uses: im-open/zip-upload-artifact@v1.1.5
+        uses: im-open/zip-upload-artifact@v1.2.0
         with:
           name: ${{ env.CODE_COVERAGE_REPORT_NAME }}
           path: ${{ env.CODE_COVERAGE_DIR }}
+      ...
+  
+  job2:
+    runs-on: [self-hosted, im-linux]
+    steps:
+      ...
+      - name: Zip and Upload Files and Ignore one
+        uses: im-open/zip-upload-artifact@v1.2.0
+        with:
+          name: ${{ env.FILE_NAME }}
+          path: |
+            ${{ env.CODE_COVERAGE_DIR }}
+            !${{ env.CODE_COVERAGE_DIR }}/ignore-me.txt
+      ...
 ```
 
 ## Contributing
