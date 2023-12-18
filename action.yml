@@ -28,6 +28,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
     - name: Create Artifact Zip File
       shell: python
       run: |
