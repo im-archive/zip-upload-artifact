@@ -36,7 +36,7 @@ jobs:
     steps:
       ...
       - name: 'Zip and Upload Artifact'
-        uses: im-open/zip-upload-artifact@v1.2.0
+        uses: im-open/zip-upload-artifact@v1.1.7
         with:
           name: ${{ env.CODE_COVERAGE_REPORT_NAME }}
           path: ${{ env.CODE_COVERAGE_DIR }}
@@ -47,7 +47,7 @@ jobs:
     steps:
       ...
       - name: Zip and Upload Files and Ignore one
-        uses: im-open/zip-upload-artifact@v1.2.0
+        uses: im-open/zip-upload-artifact@v1.1.7
         with:
           name: ${{ env.FILE_NAME }}
           path: |
