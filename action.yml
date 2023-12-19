@@ -62,9 +62,15 @@ runs:
           return root_paths
         
         def get_leading_path(current_path: str, root_paths: list) -> str:
+          best_match = None
+          match_length = 0
           for root_path in root_paths:
-            if current_path.startswith(root_path):
-              return root_path
+            # get path with the best match
+            # if have temp and temp/subfolder as root paths, and the current path is temp/subfolder/sub2 we want to return temp/subfolder
+            if current_path.startswith(root_path) and len(root_path) > match_length:
+              best_match = root_path
+              match_length = len(root_path)
+          return best_match
 
         def get_paths(path: str, list_type: str) -> list:
           paths = []
@@ -118,7 +124,7 @@ runs:
                 zip_path = os.path.relpath(path, start=leading_path)
                 if zip_path == "" or zip_path == ".":
                   continue
-                  
+
                 print(f"- Adding {zip_path}")
                 zip_writer.write(path, arcname=zip_path)
 
