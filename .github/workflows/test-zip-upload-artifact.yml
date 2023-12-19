@@ -92,7 +92,7 @@ jobs:
 
         def unzip_file(name: str, out_path: str):
           print("")
-          print(f"For {out_path} - Unzipping {name}")
+          print(f"{out_path} - Unzipping {name}")
           os.makedirs(out_path, exist_ok=True)
           with zipfile.ZipFile(name, 'r') as zip_ref:
             zip_ref.extractall(out_path)
@@ -122,7 +122,7 @@ jobs:
         file_sub_sub2 = "test-sub-sub2.txt"
 
         test_1 = "1-with-sub1-and-sub2.zip"
-        out_1 = "test1"
+        out_1 = "Test-1"
         unzip_file(test_1, out_1)        
         fail_1 = fail_workflow(
           out_1, 
@@ -135,7 +135,7 @@ jobs:
         )
         
         test_2 = "2-with-root.zip"
-        out_2 = "test2"
+        out_2 = "Test-2"
         unzip_file(test_2, out_2)
         fail_2 = fail_workflow(
           out_2, 
@@ -147,7 +147,7 @@ jobs:
         )
         
         test_3 = "3-with-root-sub2-no-sub1.zip"
-        out_3 = "test3"
+        out_3 = "Test-3"
         unzip_file(test_3, out_3)
         fail_3 = fail_workflow(
           out_3, 
@@ -160,7 +160,7 @@ jobs:
         )
 
         test_4 = "4-with-sub-sub-files.zip"
-        out_4 = "test4"
+        out_4 = "Test-4"
         unzip_file(test_4, out_4)
         fail_4 = fail_workflow(
           out_4, 
