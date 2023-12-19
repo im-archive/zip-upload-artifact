@@ -35,6 +35,15 @@ jobs:
         echo "################ Test Sub2 ################" > subfolder/test-sub2.txt
         echo ""
 
+        echo "Create subfolder/sub-subfolder/test-sub-sub1.txt"
+        mkdir "subfolder/sub-subfolder"
+        echo "################ Test Sub Sub1 ################" > subfolder/sub-subfolder/test-sub-sub1.txt
+        echo ""
+
+        echo "Create subfolder/sub-subfolder/test-sub-sub2.txt"
+        echo "################ Test Sub Sub2 ################" > subfolder/sub-subfolder/test-sub-sub2.txt
+        echo ""
+
         echo "DONE!"
 
     - name: 1. Artifact with Sub1 and Sub2
@@ -62,6 +71,15 @@ jobs:
           test-root.txt
           subfolder/
           !subfolder/test-sub2.txt
+        retention-days: 1
+
+    - name: 4. Artifact with Sub Sub files
+      if: always()
+      uses: ./
+      with:
+        name: with-sub-sub-files
+        path: |
+          subfolder/sub-subfolder
         retention-days: 1
 
     - name: Test for Existence of zip files
@@ -99,6 +117,9 @@ jobs:
         file_root = "test-root.txt"
         file_sub1 = "subfolder/test-sub1.txt"
         file_sub2 = "subfolder/test-sub2.txt"
+        dir_sub = "subfolder"
+        dir_sub_sub = "subfolder/sub-subfolder"
+        file_sub_sub2 = "test-sub-sub2.txt"
 
         test_1 = "with-sub1-and-sub2.zip"
         out_1 = "test1"
@@ -136,6 +157,21 @@ jobs:
           }
         )
 
-        if fail_1 or fail_2 or fail_3:
+        test_4 = "with-sub-sub-files.zip"
+        out_4 = "test4"
+        unzip_file(test_4, out_4)
+        fail_4 = fail_workflow(
+          out_4, 
+          {
+            file_root: False, 
+            file_sub1: False, 
+            file_sub2: False,
+            file_sub_sub2: True,
+            dir_sub: False,
+            dir_sub_sub: False,
+          }
+        )
+
+        if fail_1 or fail_2 or fail_3 or fail_4:
           print("ERROR: One or more zip file checks failed")
           sys.exit(1)
