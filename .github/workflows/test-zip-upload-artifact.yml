@@ -50,7 +50,7 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-sub1-and-sub2
+        name: 1-with-sub1-and-sub2
         path: subfolder
         retention-days: 1
 
@@ -58,7 +58,7 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-root
+        name: 2-with-root
         path: test-root.txt
         retention-days: 1
 
@@ -66,7 +66,7 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-root-sub2-no-sub1
+        name: 3-with-root-sub2-no-sub1
         path: |
           test-root.txt
           subfolder/
@@ -77,7 +77,7 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-sub-sub-files
+        name: 4-with-sub-sub-files
         path: |
           subfolder/sub-subfolder
         retention-days: 1
@@ -121,7 +121,7 @@ jobs:
         file_sub2 = "test-sub2.txt"        
         file_sub_sub2 = "test-sub-sub2.txt"
 
-        test_1 = "with-sub1-and-sub2.zip"
+        test_1 = "1-with-sub1-and-sub2.zip"
         out_1 = "test1"
         unzip_file(test_1, out_1)        
         fail_1 = fail_workflow(
@@ -134,7 +134,7 @@ jobs:
           }
         )
         
-        test_2 = "with-root.zip"
+        test_2 = "2-with-root.zip"
         out_2 = "test2"
         unzip_file(test_2, out_2)
         fail_2 = fail_workflow(
@@ -146,7 +146,7 @@ jobs:
           }
         )
         
-        test_3 = "with-root-sub2-no-sub1.zip"
+        test_3 = "3-with-root-sub2-no-sub1.zip"
         out_3 = "test3"
         unzip_file(test_3, out_3)
         fail_3 = fail_workflow(
@@ -159,7 +159,7 @@ jobs:
           }
         )
 
-        test_4 = "with-sub-sub-files.zip"
+        test_4 = "4-with-sub-sub-files.zip"
         out_4 = "test4"
         unzip_file(test_4, out_4)
         fail_4 = fail_workflow(
