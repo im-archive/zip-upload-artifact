@@ -35,13 +35,22 @@ jobs:
         echo "################ Test Sub2 ################" > subfolder/test-sub2.txt
         echo ""
 
+        echo "Create subfolder/sub-subfolder/test-sub-sub1.txt"
+        mkdir "subfolder/sub-subfolder"
+        echo "################ Test Sub Sub1 ################" > subfolder/sub-subfolder/test-sub-sub1.txt
+        echo ""
+
+        echo "Create subfolder/sub-subfolder/test-sub-sub2.txt"
+        echo "################ Test Sub Sub2 ################" > subfolder/sub-subfolder/test-sub-sub2.txt
+        echo ""
+
         echo "DONE!"
 
     - name: 1. Artifact with Sub1 and Sub2
       if: always()
       uses: ./
       with:
-        name: with-sub1-and-sub2
+        name: 1-with-sub1-and-sub2
         path: subfolder
         retention-days: 1
 
@@ -49,7 +58,7 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-root
+        name: 2-with-root
         path: test-root.txt
         retention-days: 1
 
@@ -57,14 +66,23 @@ jobs:
       if: always()
       uses: ./
       with:
-        name: with-root-sub2-no-sub1
+        name: 3-with-root-sub2-no-sub1
         path: |
           test-root.txt
           subfolder/
           !subfolder/test-sub2.txt
         retention-days: 1
 
-    - name: Test for Existence of zip files
+    - name: 4. Artifact with Sub Sub files
+      if: always()
+      uses: ./
+      with:
+        name: 4-with-sub-sub-files
+        path: |
+          subfolder/sub-subfolder
+        retention-days: 1
+
+    - name: Show Results from Previous Step Tests
       if: always()
       shell: python
       run: |
@@ -74,7 +92,7 @@ jobs:
 
         def unzip_file(name: str, out_path: str):
           print("")
-          print(f"Unzipping {name}")
+          print(f"{out_path} - Unzipping {name}")
           os.makedirs(out_path, exist_ok=True)
           with zipfile.ZipFile(name, 'r') as zip_ref:
             zip_ref.extractall(out_path)
@@ -96,24 +114,28 @@ jobs:
           print("-----------------------------------------------------------------------")
           return should_fail
         
+        dir_sub = "subfolder"
+        dir_sub_sub = "subfolder/sub-subfolder"
         file_root = "test-root.txt"
-        file_sub1 = "subfolder/test-sub1.txt"
-        file_sub2 = "subfolder/test-sub2.txt"
+        file_sub1 = "test-sub1.txt"
+        file_sub2 = "test-sub2.txt"        
+        file_sub_sub2 = "test-sub-sub2.txt"
 
-        test_1 = "with-sub1-and-sub2.zip"
-        out_1 = "test1"
+        test_1 = "1-with-sub1-and-sub2.zip"
+        out_1 = "Test-1"
         unzip_file(test_1, out_1)        
         fail_1 = fail_workflow(
           out_1, 
           {
             file_root: False, 
             file_sub1: True, 
-            file_sub2: True
+            file_sub2: True,
+            dir_sub: False,
           }
         )
         
-        test_2 = "with-root.zip"
-        out_2 = "test2"
+        test_2 = "2-with-root.zip"
+        out_2 = "Test-2"
         unzip_file(test_2, out_2)
         fail_2 = fail_workflow(
           out_2, 
@@ -124,18 +146,34 @@ jobs:
           }
         )
         
-        test_3 = "with-root-sub2-no-sub1.zip"
-        out_3 = "test3"
+        test_3 = "3-with-root-sub2-no-sub1.zip"
+        out_3 = "Test-3"
         unzip_file(test_3, out_3)
         fail_3 = fail_workflow(
           out_3, 
           {
             file_root: True, 
             file_sub1: True, 
-            file_sub2: False
+            file_sub2: False,
+            dir_sub: False,
           }
         )
 
-        if fail_1 or fail_2 or fail_3:
+        test_4 = "4-with-sub-sub-files.zip"
+        out_4 = "Test-4"
+        unzip_file(test_4, out_4)
+        fail_4 = fail_workflow(
+          out_4, 
+          {
+            file_root: False, 
+            file_sub1: False, 
+            file_sub2: False,
+            file_sub_sub2: True,
+            dir_sub: False,
+            dir_sub_sub: False,
+          }
+        )
+
+        if fail_1 or fail_2 or fail_3 or fail_4:
           print("ERROR: One or more zip file checks failed")
           sys.exit(1)

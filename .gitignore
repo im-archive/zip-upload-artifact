@@ -3,3 +3,4 @@ action_tester.py
 .vscode
 *.zip
 temp
+__pycache__
