@@ -82,7 +82,7 @@ jobs:
           subfolder/sub-subfolder
         retention-days: 1
 
-    - name: Test for Existence of zip files
+    - name: Show Results from Previous Step Tests
       if: always()
       shell: python
       run: |
@@ -92,7 +92,7 @@ jobs:
 
         def unzip_file(name: str, out_path: str):
           print("")
-          print(f"Unzipping {name} for {out_path}")
+          print(f"For {out_path} - Unzipping {name}")
           os.makedirs(out_path, exist_ok=True)
           with zipfile.ZipFile(name, 'r') as zip_ref:
             zip_ref.extractall(out_path)
