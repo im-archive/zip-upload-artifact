@@ -116,6 +116,9 @@ runs:
             if path not in excluded_paths:
                 leading_path = get_leading_path(path, root_paths)
                 zip_path = os.path.relpath(path, start=leading_path)
+                if zip_path == "" or zip_path == ".":
+                  continue
+                  
                 print(f"- Adding {zip_path}")
                 zip_writer.write(path, arcname=zip_path)
 
