@@ -104,7 +104,7 @@ runs:
         print("####################################################")
 
         print("Inputs")    
-        file_name = os.environ['FILE_NAME']
+        file_name = os.environ['FILE_NAME'].strip()
         print(f"- Name: {file_name}")
                 
         file_path = os.environ['FILE_PATH'].splitlines()
