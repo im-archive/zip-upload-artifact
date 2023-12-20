@@ -99,7 +99,7 @@ runs:
                 paths.extend(discovered_paths)
 
           paths_for_print = [f"- '{path}{os.linesep}'" for path in paths]
-          print(f"Discovered {len(paths)} {list_type} paths: {', '.join(paths_for_print)}")
+          print(f"Discovered {len(paths)} {list_type} paths: {' '.join(paths_for_print)}")
           return paths
 
         print()
