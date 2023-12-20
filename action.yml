@@ -95,7 +95,7 @@ runs:
                 discovered_paths = glob.glob(path_value, recursive=True)
                 paths.extend(discovered_paths)
 
-          print(f"Discovered {len(paths)} {list_type} paths: {', '.join(paths)}")
+          print(f"Discovered {len(paths)} {list_type} paths: {os.linesep + '- '.join(paths)}")
           return paths
 
         print()
@@ -105,12 +105,14 @@ runs:
 
         print("Inputs")    
         file_name = os.environ['FILE_NAME'].strip()
-        print(f"- Name: {file_name}")
+        print(f"- Name: '{file_name}'")
                 
         file_path = os.environ['FILE_PATH'].splitlines()
-        print(f"- Path: {', '.join(file_path)}")
+        print(f"- Path: '{', '.join(file_path)}'")
 
         root_paths = get_root_paths(file_path)
+        print(f"- Root Paths: '{', '.join(root_paths)}'")
+
         included_paths = get_paths(file_path, list_type="included")
         excluded_paths = get_paths(file_path, list_type="excluded")
 
