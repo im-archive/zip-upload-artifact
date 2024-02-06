@@ -1,3 +1,6 @@
+# DEPRECATED
+This repository was deprecated on 2024-02-06
+
 # Zip Upload Artifact
 The zip upload artifact action zips a file, or directory and uploads it as an artifact. This reduces the size of an artifact to help save on GitHub Artifact space usages. This action has the same inputs as upload-artifact so it can be changed from that to this by changing the `uses` line in the workflow.
 
